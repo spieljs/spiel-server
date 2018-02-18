@@ -4,7 +4,7 @@ import { IRouteClasses, IRouteMethod, IRouter, RouteConnect} from "./helpers/int
 export class SetRouter {
     protected routes: IRouter[];
     protected router: middleware.SimpleRouter;
-    protected RouterConnect!: RouteConnect;
+    protected RouterConnect: RouteConnect = [];
 
     constructor(routes: IRouter[], road: Road) {
         this.routes = routes;
@@ -15,8 +15,10 @@ export class SetRouter {
 
     private getRoutes() {
         this.routes.forEach((route) => {
-            route.route.forEach((props: IRouteMethod) => {
-                this.router.addRoute(props.method, props.path, route[Object.keys(props)[0]]);
+            route.router.forEach((props: IRouteMethod) => {
+                if (props.name) {
+                    this.router.addRoute(props.method, props.path, route.constructor.prototype[props.name]);
+                }
             });
             this.RouterConnect.push(this.setRouterConnect(route));
         });
@@ -25,11 +27,11 @@ export class SetRouter {
     private setRouterConnect(route: IRouter): IRouteClasses {
         return {
             name: route.constructor.name,
-            props: Object.keys(route).map((prop) => {
+            props: route.router.map((prop: IRouteMethod) => {
                 return {
-                    method: route[prop].method,
-                    name: prop,
-                    path: route[prop].path,
+                    method: prop.method,
+                    name: prop.name,
+                    path: prop.path,
                 };
             }),
         };

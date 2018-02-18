@@ -6,7 +6,9 @@
     "jsRules": {},
     "rules": {
         "no-console": false,
-        "only-arrow-functions": false
+        "no-unused-expression": [true, "allow-new"],
+        "only-arrow-functions": false,
+        "max-classes-per-file": false,
     },
     "rulesDirectory": []
 }

@@ -8,6 +8,8 @@ export interface IRouter {
 export interface IRouteMethod {
     path: string;
     method: string;
+    name?: string;
+    target?: any;
 }
 
 export interface IRouteProps {
@@ -19,4 +21,8 @@ export interface IRouteProps {
 export interface IRouteClasses {
     name: string;
     props: IRouteProps[];
+}
+
+export interface IRoute {
+    [key: string]: IRouteMethod;
 }

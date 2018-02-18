@@ -1,1 +1,1 @@
-export {Router, Delete, Get, Head, Options, Patch, Post, Put} from "./router";
+export {Route, Delete, Get, Head, Options, Patch, Post, Put} from "./router";

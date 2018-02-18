@@ -9,5 +9,9 @@
 		"emitDecoratorMetadata": true,
 		"outDir": "./lib",
 		"declaration": true
-	}
+	},
+
+	"include": [
+		"src/index.ts"
+	]
 }
