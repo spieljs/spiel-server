@@ -1,5 +1,5 @@
 import { middleware, Response, Road} from "roads";
-import { IRouteClasses, IRouteMethod, IRouter, RouteConnect} from "./helpers/interfaces";
+import { IRouteClasses, IRouteMethod, IRouter, RouteConnect, getAllMethods} from "./helpers";
 
 export class SetRouter {
     protected routes: IRouter[];
@@ -15,25 +15,30 @@ export class SetRouter {
 
     private getRoutes() {
         this.routes.forEach((route) => {
-            route.router.forEach((props: IRouteMethod) => {
-                if (props.name) {
-                    this.router.addRoute(props.method, props.path, route.constructor.prototype[props.name]);
-                }
+            const methods = getAllMethods(route);
+            const path = route.path;
+            const routers = route.routers;
+            methods.forEach((prop: string) => {
+                this.router.addRoute(routers[prop].method, `${path}${(routers[prop].path)
+                    ? `/${routers[prop].path}`
+                    : ""}`, route[prop]);
             });
-            this.RouterConnect.push(this.setRouterConnect(route));
+            this.RouterConnect.push(this.setRouterConnect(routers, route.constructor.name, path));
         });
+
+        console.log(this.router);
     }
 
-    private setRouterConnect(route: IRouter): IRouteClasses {
+    protected setRouterConnect(routers: IRouter, routeName: string, path: string): IRouteClasses {
         return {
-            name: route.constructor.name,
-            props: route.router.map((prop: IRouteMethod) => {
+            name: routeName,
+            props: Object.keys(routers).map((router) => {
                 return {
-                    method: prop.method,
-                    name: prop.name,
-                    path: prop.path,
-                };
-            }),
+                    name: router,
+                    path:`${path}${(routers[router].path) ? `/${routers[router].path}`: ""}`,
+                    method: routers[router].method
+                }
+            })
         };
     }
 

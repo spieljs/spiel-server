@@ -1,111 +1,82 @@
 import {middleware, Road} from "roads";
-import {IRoute, IRouteMethod} from "../helpers";
+import {IRoute, IRouteMethod, getAllMethods} from "../helpers";
 
 const routes: IRoute = {};
 
 export function Route(path: string) {
     return function<T extends {new(...args: any[]): {}}>(constructor: T) {
         return class extends constructor {
-            public router = Object.keys(routes)
-                .filter((route) => routes[route].target.constructor.name === constructor.name)
-                .map((route) => {
-                    const value = {
-                        method: routes[route].method,
-                        name: route,
-                        path: `/${(path) ? path : constructor.name}${routes[route].path ?
-                            `/${routes[route].path}` : ""}`,
-                    };
-    
-                    return value;
-                });
+            path = (path) ? `/${path}` : `/${constructor.name}`
         };
     };
 }
 
 export function Delete(path: string) {
     return (target: any, key: string, descriptor: PropertyDescriptor): void => {
-        const route: IRouteMethod = {
+        if(!target.routers) target.routers = [];
+        target.routers[key] = {
             method: "DELETE",
-            path,
-            target,
+            path
         };
-
-        getRoute(route, key);
     };
 }
 
 export function Get(path: string) {
     return (target: any, key: string, descriptor: PropertyDescriptor): void => {
-        const route: IRouteMethod = {
+        if(!target.routers) target.routers = [];
+        target.routers[key] = {
             method: "GET",
-            path,
-            target,
+            path
         };
-
-        getRoute(route, key);
     };
 }
 
 export function Head(path: string) {
     return (target: any, key: string, descriptor: PropertyDescriptor): void => {
-        const route: IRouteMethod = {
+        if(!target.routers) target.routers = [];
+        target.routers[key] = {
             method: "HEAD",
-            path,
-            target,
+            path
         };
-
-        getRoute(route, key);
     };
 }
 
 export function Options(path: string) {
     return (target: any, key: string, descriptor: PropertyDescriptor): void => {
-        const route: IRouteMethod = {
+        if(!target.routers) target.routers = [];
+        target.routers[key] = {
             method: "OPTIONS",
-            path,
-            target,
+            path
         };
-
-        getRoute(route, key);
     };
 }
 
 export function Patch(path: string) {
     return (target: any, key: string, descriptor: PropertyDescriptor): void => {
-        const route: IRouteMethod = {
+        if(!target.routers) target.routers = [];
+        target.routers[key] = {
             method: "PATCH",
-            path,
-            target,
+            path
         };
-
-        getRoute(route, key);
     };
 }
 
 export function Post(path: string) {
     return (target: any, key: string, descriptor: PropertyDescriptor): void => {
-        const route: IRouteMethod = {
+        if(!target.routers) target.routers = [];
+        target.routers[key] = {
             method: "POST",
-            path,
-            target,
+            path
         };
-
-        getRoute(route, key);
     };
 }
 
 export function Put(path: string) {
     return (target: any, key: string, descriptor: PropertyDescriptor): void => {
-        const route: IRouteMethod = {
+        if(!target.routers) target.routers = [];
+        target.routers[key] = {
             method: "PUT",
-            path,
-            target,
+            path
         };
-
-        getRoute(route, key);
     };
-}
-
-function getRoute(route: IRouteMethod, key: string) {
-    routes[key] = route;
 }

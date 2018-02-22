@@ -8,8 +8,6 @@ export interface IRouter {
 export interface IRouteMethod {
     path: string;
     method: string;
-    name?: string;
-    target?: any;
 }
 
 export interface IRouteProps {
