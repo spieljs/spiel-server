@@ -1,14 +1,18 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+    "no-console": false,
+    "no-unused-expression": [
+      true,
+      "allow-new"
     ],
-    "jsRules": {},
-    "rules": {
-        "no-console": false,
-        "no-unused-expression": [true, "allow-new"],
-        "only-arrow-functions": false,
-        "max-classes-per-file": false,
-    },
-    "rulesDirectory": []
+    "no-conditional-assignment": false,
+    "only-arrow-functions": false,
+    "max-classes-per-file": false
+  },
+  "rulesDirectory": []
 }

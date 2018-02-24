@@ -10,6 +10,11 @@ export {lab};
 lab.experiment("Server", () => {
 
     lab.test("Has to return all the users", async () => {
+        const response: any = await rp("http://localhost:3000/greeting", {json: true});
+        console.log(response);
+    });
+
+    lab.test("Has to change the response", async () => {
         const response: any = await rp("http://localhost:3000/user", {json: true});
         Code.expect(response).to.have.length(4);
     });

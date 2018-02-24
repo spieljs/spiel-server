@@ -1,4 +1,4 @@
-import {Delete, Get, HttpError, IRouter, middleware, Post, Put, Response, Road, Route, Server, SetRouter} from "../src";
+import {After, Before, Delete, Get, HttpError, IRouter, IRouterOptions, middleware, Post, Put, Response, Road, Route, Server, SetRouter} from "../src";
 import {users} from "./assets";
 
 const app = new Road();
@@ -15,8 +15,19 @@ const server = new Server(app, (error: any) => {
     }
 });
 
+const info = (method: string, path: string, body: any, headers: Headers, next: Function) => {
+    console.log('A ' + method + ' request was made to ' + JSON.stringify(path));
+    return next();
+};
+
+const changeOut = (method: string, path: string, body: any, headers: Headers, next: Function) => {
+    console.log("Finaliza")
+    return new Response({greet: "Hola"}, 200);
+};
+
 @Route("user")
 class User {
+    @Before(info)
     @Get("")
     public getUsers() {
         return new Response(users, 200);
@@ -63,15 +74,23 @@ class User {
 
 @Route("greeting")
 class Greeting {
+    @After(changeOut)
     @Get("")
-    public getGreeting() {
-        return new Response({greet: "hello"}, 200);
+    public getGreeting(url: any, body: any, headers: any, next: Function) {
+        console.log("HELLO EVERYBODY");
+        return next()
     }
 }
 
 const routes = [new User(), new Greeting()];
 
-new SetRouter(routes, app);
+const configRouter: IRouterOptions = {
+  road: app,
+  routes,
+  connectionMode: true
+}
+
+new SetRouter(configRouter);
 
 server.listen(3000, () => {
     console.log("Serve is running in the port 3000");
