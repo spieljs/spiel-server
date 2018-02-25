@@ -11,6 +11,48 @@ export function Route(path: string) {
   };
 }
 
+export function BeforeAll(middleware: Function) {
+  const before = "before";
+  return function <T extends { new(...args: any[]): {} }>(constructor: T) {
+    return class extends constructor {
+      public routers: any = constructor.prototype.routers;
+      constructor(...args: any[]) {
+        super(...args);
+        if (!this.routers) {
+          this.routers = [];
+        }
+
+        if (!this.routers[before]) {
+          this.routers[before] = [];
+        }
+
+        this.routers[before].unshift(middleware);
+      }
+    };
+  };
+}
+
+export function AfterAll(middleware: Function) {
+  const after = "after";
+  return function <T extends { new(...args: any[]): {} }>(constructor: T) {
+    return class extends constructor {
+      public routers: any = constructor.prototype.routers;
+      constructor(...args: any[]) {
+        super(...args);
+        if (!this.routers) {
+          this.routers = [];
+        }
+
+        if (!this.routers[after]) {
+          this.routers[after] = [];
+        }
+
+        this.routers[after].push(middleware);
+      }
+    };
+  };
+}
+
 export function Before(middleware: Function) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     const before = "before";

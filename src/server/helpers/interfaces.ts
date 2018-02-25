@@ -28,7 +28,8 @@ export interface IRoute {
 }
 
 export interface IRouterOptions {
-  connectionMode: boolean;
+  connectionMode?: boolean;
   routes: any[];
   road: Road;
+  verbose?: boolean;
 }

@@ -7,19 +7,35 @@ export class SetRouter {
   protected RouterConnect: RouteConnect = [];
   protected road: Road;
   protected connectionMode: boolean;
+  protected verbose: boolean;
 
   constructor(options: IRouterOptions) {
     this.road = options.road;
     this.routes = options.routes;
+    this.verbose = (options.verbose)
+      ? options.verbose
+      : false;
     this.connectionMode = (options.connectionMode)
       ? options.connectionMode
       : true;
+
+    if (this.verbose) {
+      this.infoRequest();
+    }
+
     this.router = new middleware.SimpleRouter();
     this.getRoutes();
 
     if (this.connectionMode) {
       this.setConnection();
     }
+  }
+
+  protected infoRequest() {
+    this.road.use((method: string, request: any, body: any, Headers: Headers, next: Function) => {
+      console.log(`${method} ${request.path}`);
+      return next();
+    });
   }
 
   protected setRouterConnect(routers: IRouter, routeName: string, path: string): IRouteClasses {
@@ -37,14 +53,18 @@ export class SetRouter {
     };
   }
 
+  protected setConnection() {
+    this.router.addRoute("GET", "/", () => {
+      return new Response(this.RouterConnect, 200);
+    });
+  }
+
   private getRoutes() {
     let after: Function[] = [];
     this.routes.forEach((route) => {
       const methods = getAllMethods(route);
       const path = route.path;
       const routers = route.routers;
-
-      console.log(routers);
 
       if (routers.before && routers.before.length) {
         this.buildBeforeMiddlewares(routers.before);
@@ -68,7 +88,9 @@ export class SetRouter {
       this.buildAfterMiddlewares(after);
     }
 
-    console.log(this.router);
+    if (this.verbose) {
+      console.log(this.router);
+    }
   }
 
   private buildBeforeMiddlewares(before: any[]) {
@@ -80,12 +102,6 @@ export class SetRouter {
   private buildAfterMiddlewares(after: any[]) {
     after.forEach((middleware) => {
       this.road.use(middleware);
-    });
-  }
-
-  private setConnection() {
-    this.router.addRoute("GET", "/", () => {
-      return new Response(this.RouterConnect, 200);
     });
   }
 }

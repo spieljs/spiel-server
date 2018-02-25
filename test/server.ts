@@ -1,4 +1,4 @@
-import {After, Before, Delete, Get, HttpError, IRouter, IRouterOptions, middleware, Post, Put, Response, Road, Route, Server, SetRouter} from "../src";
+import {After, AfterAll, Before, BeforeAll, Delete, Get, HttpError, IRouter, IRouterOptions, middleware, Post, Put, Response, Road, Route, Server, SetRouter} from "../src";
 import {users} from "./assets";
 
 const app = new Road();
@@ -20,11 +20,23 @@ const info = (method: string, path: string, body: any, headers: Headers, next: F
     return next();
 };
 
-const changeOut = (method: string, path: string, body: any, headers: Headers, next: Function) => {
-    console.log("Finaliza")
-    return new Response({greet: "Hola"}, 200);
+const infoAll = (method: string, path: string, body: any, headers: Headers, next: Function) => {
+    console.log("The middleware start");
+    return next();
 };
 
+const changeOut = (method: string, path: string, body: any, headers: Headers, next: Function) => {
+    console.log("Finaliza");
+    return next();
+};
+
+const finish = (method: string, path: string, body: any, headers: Headers, next: Function) => {
+    console.log("Fin");
+    return new Response({greet:"Bye"}, 200);
+};
+
+@BeforeAll(infoAll)
+@AfterAll(finish)
 @Route("user")
 class User {
     @Before(info)
@@ -87,7 +99,8 @@ const routes = [new User(), new Greeting()];
 const configRouter: IRouterOptions = {
   road: app,
   routes,
-  connectionMode: true
+  connectionMode: true,
+  verbose: true,
 }
 
 new SetRouter(configRouter);
