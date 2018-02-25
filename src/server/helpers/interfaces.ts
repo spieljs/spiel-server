@@ -1,9 +1,9 @@
 import { Road } from "roads";
 
 export type Keys = string;
-export type RouteConnect = IRouteClasses[];
+export type EndpointsConnect = IEndpoints[];
 
-export interface IRouter {
+export interface IEndpoint {
   [key: string]: any;
 }
 
@@ -18,7 +18,7 @@ export interface IRouteProps {
   name: string;
 }
 
-export interface IRouteClasses {
+export interface IEndpoints {
   name: string;
   props: IRouteProps[];
 }
@@ -27,9 +27,27 @@ export interface IRoute {
   [key: string]: IRouteMethod;
 }
 
+/**
+ * Router options
+ */
 export interface IRouterOptions {
+  /**
+   * create a root endpoint which return all the rest endpoint with its methods
+   * @default true
+   */
   connectionMode?: boolean;
-  routes: any[];
+  /**
+   * All the endpoints for this router
+   */
+  endpoints: any[];
+  /**
+   * Object to build the router
+   * @see <a href="https://github.com/Dashron/roads">roads</a>
+   */
   road: Road;
+  /**
+   * Show all the routers and request in server console
+   * @default false
+   */
   verbose?: boolean;
 }

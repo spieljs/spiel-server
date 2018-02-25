@@ -1,3 +1,4 @@
+import "./server";
 import * as Code from "code";
 import * as Lab from "lab";
 import * as request from "request";

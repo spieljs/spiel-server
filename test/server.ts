@@ -1,4 +1,4 @@
-import {After, AfterAll, Before, BeforeAll, Delete, Get, HttpError, IRouter, IRouterOptions, middleware, Post, Put, Response, Road, Route, Server, SetRouter} from "../src";
+import {After, AfterAll, Before, BeforeAll, Delete, Get, HttpError, IRouter, IRouterOptions, middleware, Post, Put, Response, Road, Endpoint, Server, SetRouter} from "../src";
 import {users} from "./assets";
 
 const app = new Road();
@@ -37,7 +37,7 @@ const finish = (method: string, path: string, body: any, headers: Headers, next:
 
 @BeforeAll(infoAll)
 @AfterAll(finish)
-@Route("user")
+@Endpoint("user")
 class User {
     @Before(info)
     @Get("")
@@ -84,7 +84,7 @@ class User {
     }
 }
 
-@Route("greeting")
+@Endpoint("greeting")
 class Greeting {
     @After(changeOut)
     @Get("")
@@ -94,11 +94,11 @@ class Greeting {
     }
 }
 
-const routes = [new User(), new Greeting()];
+const endpoints = [new User(), new Greeting()];
 
 const configRouter: IRouterOptions = {
   road: app,
-  routes,
+  endpoints,
   connectionMode: true,
   verbose: true,
 }

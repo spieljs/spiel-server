@@ -1,4 +1,4 @@
-export const getAllMethods = (obj: any) => {
+export const getPropsObject = (obj: any) => {
 
   let props: string[] = [];
 

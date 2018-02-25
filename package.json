@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "lab -v --sourcemaps --transform node_modules/lab-transform-typescript test/spiel.server.test.ts",
-    "lint": "tslint src/**/*.ts",
-    "server": "node_modules/nodemon/bin/nodemon.js --watch 'src/*' --watch 'test/server.ts' -e ts --exec 'ts-node' ./test/server.ts"
+    "lint": "tslint src/**/*.ts"
   },
   "repository": {
     "type": "git",

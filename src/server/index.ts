@@ -1,3 +1,6 @@
 export { SetRouter } from "./set-router";
-export { IRouter, IRouteClasses, IRouteMethod, IRouterOptions, IRouteProps, RouteConnect } from "./helpers";
-export { After, AfterAll, Before, BeforeAll, Route, Delete, Get, Head, Options, Patch, Post, Put } from "./decorators";
+export { IEndpoint, IEndpoints, IRouteMethod, IRouterOptions, IRouteProps, EndpointsConnect } from "./helpers";
+export {
+  After, AfterAll, Before, BeforeAll, Endpoint,
+  Delete, Get, Head, Options, Patch, Post, Put
+} from "./decorators";

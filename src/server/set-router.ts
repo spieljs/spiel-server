@@ -1,17 +1,23 @@
 import { middleware, Response, Road } from "roads";
-import { getAllMethods, IRouteClasses, IRouteMethod, IRouter, IRouterOptions, RouteConnect } from "./helpers";
+import { EndpointsConnect, getPropsObject, IEndpoint, IEndpoints, IRouteMethod, IRouterOptions } from "./helpers";
 
+/**
+ * Set the router with the endpoints and middlewares
+ */
 export class SetRouter {
-  protected routes: IRouter[];
+  protected endpoints: IEndpoint[];
   protected router: middleware.SimpleRouter;
-  protected RouterConnect: RouteConnect = [];
+  protected RouterConnect: EndpointsConnect = [];
   protected road: Road;
   protected connectionMode: boolean;
   protected verbose: boolean;
 
+  /**
+   * @param options Router options
+   */
   constructor(options: IRouterOptions) {
     this.road = options.road;
-    this.routes = options.routes;
+    this.endpoints = options.endpoints;
     this.verbose = (options.verbose)
       ? options.verbose
       : false;
@@ -24,7 +30,7 @@ export class SetRouter {
     }
 
     this.router = new middleware.SimpleRouter();
-    this.getRoutes();
+    this.getendpoints();
 
     if (this.connectionMode) {
       this.setConnection();
@@ -38,16 +44,16 @@ export class SetRouter {
     });
   }
 
-  protected setRouterConnect(routers: IRouter, routeName: string, path: string): IRouteClasses {
+  protected setRouterConnect(endpointMethods: IEndpoint, routeName: string, path: string): IEndpoints {
     return {
       name: routeName,
-      props: Object.keys(routers)
-        .filter((router: string) => router !== "before" && router !== "after")
-        .map((router) => {
+      props: Object.keys(endpointMethods)
+        .filter((method: string) => method !== "before" && method !== "after")
+        .map((method) => {
         return {
-          method: routers[router].method,
-          name: router,
-          path: `${path}${(routers[router].path) ? `/${routers[router].path}` : ""}`,
+          method: endpointMethods[method].method,
+          name: method,
+          path: `${path}${(endpointMethods[method].path) ? `/${endpointMethods[method].path}` : ""}`,
         };
       }),
     };
@@ -59,28 +65,28 @@ export class SetRouter {
     });
   }
 
-  private getRoutes() {
+  private getendpoints() {
     let after: Function[] = [];
-    this.routes.forEach((route) => {
-      const methods = getAllMethods(route);
-      const path = route.path;
-      const routers = route.routers;
+    this.endpoints.forEach((endpoint) => {
+      const props = getPropsObject(endpoint);
+      const path = endpoint.path;
+      const methods = endpoint.methods;
 
-      if (routers.before && routers.before.length) {
-        this.buildBeforeMiddlewares(routers.before);
+      if (methods.before && methods.before.length) {
+        this.buildBeforeMiddlewares(methods.before);
       }
 
-      methods.forEach((prop: string) => {
-        this.router.addRoute(routers[prop].method, `${path}${(routers[prop].path)
-          ? `/${routers[prop].path}`
-          : ""}`, route[prop]);
+      props.forEach((prop: string) => {
+        this.router.addRoute(methods[prop].method, `${path}${(methods[prop].path)
+          ? `/${methods[prop].path}`
+          : ""}`, endpoint[prop]);
       });
 
-      if (routers.after && routers.after.length) {
-        after = after.concat(routers.after);
+      if (methods.after && methods.after.length) {
+        after = after.concat(methods.after);
       }
 
-      this.RouterConnect.push(this.setRouterConnect(routers, route.constructor.name, path));
+      this.RouterConnect.push(this.setRouterConnect(methods, endpoint.constructor.name, path));
     });
 
     this.router.applyMiddleware(this.road);
