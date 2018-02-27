@@ -30,6 +30,7 @@
     "@types/request-promise": "^4.1.41",
     "code": "^5.2.0",
     "gulp": "^3.9.1",
+    "gulp-typedoc": "^2.2.0",
     "lab": "^15.2.2",
     "lab-transform-typescript": "^3.0.1",
     "nodemon": "^1.14.12",

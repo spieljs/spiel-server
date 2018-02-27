@@ -1,0 +1,437 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Spiel Server</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">Spiel Server</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> Spiel Server</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="spiel-server">Spiel Server</h1>
+				<p>Spiel server is a middleware framework to make easy create backend applications.</p>
+				<ul>
+					<li>You can create easily endpoints with decorators and make more logic your code.</li>
+					<li>Spiel server creates automatically a root endpoint which response with all the endpoints and its methods of the backend application.</li>
+					<li>It uses <a href="https://github.com/Dashron/roads">Roads</a> as core which make possible to attach the middlewares in HTTP servers like Koa.js, Express.js or use <a href="https://github.com/Dashron/roads-server">roads-server</a> which is also integrate.</li>
+				</ul>
+				<h2 id="how-use-it">How use it</h2>
+				<h3 id="create-your-endpoints">Create your endpoints</h3>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {Endpoint, Get, Road, SetRouter} <span class="hljs-keyword">from</span> <span class="hljs-string">"spiel-server"</span>;
+<span class="hljs-meta">@Endpoint</span>(<span class="hljs-string">"greeting"</span>)
+<span class="hljs-keyword">class</span> Greeting {
+    <span class="hljs-meta">@Get</span>(<span class="hljs-string">""</span>)
+    <span class="hljs-keyword">public</span> getGreeting(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>, headers: <span class="hljs-built_in">any</span>, next: <span class="hljs-built_in">Function</span>) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"HELLO EVERYBODY"</span>);
+        <span class="hljs-keyword">return</span> next()
+    }
+}
+</code></pre>
+				<h3 id="create-your-middlewares">Create your middlewares</h3>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {After, AfterAll, Before, BeforeAll, Delete, Get, middleware, Post, Put, Response, Road, Endpoint, SetRouter} <span class="hljs-keyword">from</span> <span class="hljs-string">"spiel-server"</span>
+
+<span class="hljs-keyword">const</span> info = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'A '</span> + method + <span class="hljs-string">' request was made to '</span> + <span class="hljs-built_in">JSON</span>.stringify(path));
+    <span class="hljs-keyword">return</span> next();
+};
+
+<span class="hljs-keyword">const</span> infoAll = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The middleware start"</span>);
+    <span class="hljs-keyword">return</span> next();
+};
+
+<span class="hljs-keyword">const</span> changeOut = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Finaliza"</span>);
+    <span class="hljs-keyword">return</span> next();
+};
+
+<span class="hljs-keyword">const</span> finish = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Fin"</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response({greet:<span class="hljs-string">"Bye"</span>}, <span class="hljs-number">200</span>);
+};
+
+<span class="hljs-meta">@BeforeAll</span>(infoAll)
+<span class="hljs-meta">@AfterAll</span>(finish)
+<span class="hljs-meta">@Endpoint</span>(<span class="hljs-string">"user"</span>)
+<span class="hljs-keyword">class</span> User {
+    <span class="hljs-meta">@Before</span>(info)
+    <span class="hljs-meta">@Get</span>(<span class="hljs-string">""</span>)
+    <span class="hljs-keyword">public</span> getUsers() {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(users, <span class="hljs-number">200</span>);
+    }
+    <span class="hljs-meta">@Get</span>(<span class="hljs-string">"#id"</span>)
+    <span class="hljs-keyword">public</span> getUser(url: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> id = url.args.id;
+        <span class="hljs-keyword">const</span> user: <span class="hljs-built_in">any</span> = users.find(<span class="hljs-function">(<span class="hljs-params">elment</span>) =&gt;</span> elment.id === id);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(user, <span class="hljs-number">200</span>);
+    }
+
+    <span class="hljs-meta">@Post</span>(<span class="hljs-string">""</span>)
+    <span class="hljs-keyword">public</span> addUser(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> user = body;
+        users.push(user);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(users, <span class="hljs-number">200</span>);
+    }
+
+    <span class="hljs-meta">@Put</span>(<span class="hljs-string">"#id"</span>)
+    <span class="hljs-keyword">public</span> updateUser(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> id = url.args.id;
+        <span class="hljs-keyword">const</span> resp = users.map(<span class="hljs-function">(<span class="hljs-params">user</span>) =&gt;</span> {
+            <span class="hljs-keyword">const</span> value = user;
+            <span class="hljs-keyword">if</span> (value.id === id) {
+                value.permission = body.permission;
+            }
+            <span class="hljs-keyword">return</span> value;
+        });
+        <span class="hljs-keyword">if</span> (!resp) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> HttpError(<span class="hljs-string">"User not found"</span>, <span class="hljs-number">404</span>);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(resp, <span class="hljs-number">200</span>);
+        }
+    }
+
+    <span class="hljs-meta">@Delete</span>(<span class="hljs-string">"#id"</span>)
+    <span class="hljs-keyword">public</span> deleteUser(url: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> id = url.args.id;
+        <span class="hljs-keyword">const</span> index = users.findIndex(<span class="hljs-function">(<span class="hljs-params">user: <span class="hljs-built_in">any</span></span>) =&gt;</span> user.id === id);
+        users.splice(index, <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(users, <span class="hljs-number">200</span>);
+    }
+}
+</code></pre>
+				<p>Consider that all middlewares will be executed before or after the endpoint response if you don&#39;t implement logic for the path endpoint into the middleware and also remember in return next in the method endpoint if you want to execute an after middleware.</p>
+				<h3 id="setting-the-router">Setting the router</h3>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {Endpoint, Get, IRouterOptions, Road, Server, SetRouter} <span class="hljs-keyword">from</span> <span class="hljs-string">"spiel-server"</span>;
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> Road();
+
+<span class="hljs-meta">@Endpoint</span>(<span class="hljs-string">"greeting"</span>)
+<span class="hljs-keyword">class</span> Greeting {
+    <span class="hljs-meta">@After</span>(changeOut)
+    <span class="hljs-meta">@Get</span>(<span class="hljs-string">""</span>)
+    <span class="hljs-keyword">public</span> getGreeting(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>, headers: <span class="hljs-built_in">any</span>, next: <span class="hljs-built_in">Function</span>) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"HELLO EVERYBODY"</span>);
+        <span class="hljs-keyword">return</span> next()
+    }
+}
+
+<span class="hljs-keyword">const</span> endpoints = [<span class="hljs-keyword">new</span> Greeting()];
+
+<span class="hljs-keyword">const</span> configRouter: IRouterOptions = {
+  road: app,
+  endpoints,
+  connectionMode: <span class="hljs-literal">true</span>,
+  verbose: <span class="hljs-literal">true</span>,
+}
+
+<span class="hljs-keyword">new</span> SetRouter(configRouter);
+
+</code></pre>
+				<h3 id="using-the-roads-api">Using the roads API</h3>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {Road, middleware} <span class="hljs-keyword">from</span> <span class="hljs-string">"spiel-server"</span>;
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> Road();
+
+app.use(middleware.cors([<span class="hljs-string">'http://localhost:8080'</span>], [<span class="hljs-string">'authorization'</span>]));
+</code></pre>
+				<p>About the Roads Api see <a href="https://github.com/Dashron/roads#index">in Roads docs</a></p>
+				<h3 id="complete-example-with-server">Complete example with Server</h3>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {After, AfterAll, Before, BeforeAll, Delete, Get, HttpError, IRouterOptions, middleware, Post, Put, Response, Road, Endpoint, Server, SetRouter} <span class="hljs-keyword">from</span> <span class="hljs-string">"spiel-server"</span>;
+<span class="hljs-keyword">import</span> {users} <span class="hljs-keyword">from</span> <span class="hljs-string">"./assets"</span>;
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> Road();
+
+<span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> Server(app, <span class="hljs-function">(<span class="hljs-params">error: <span class="hljs-built_in">any</span></span>) =&gt;</span> {
+    <span class="hljs-keyword">switch</span> (error.code) {
+        <span class="hljs-keyword">case</span> <span class="hljs-number">404</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(<span class="hljs-string">"Not Found"</span>, <span class="hljs-number">404</span>);
+        <span class="hljs-keyword">case</span> <span class="hljs-number">405</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(<span class="hljs-string">"Not Allowed"</span>, <span class="hljs-number">405</span>);
+        <span class="hljs-keyword">default</span>:
+        <span class="hljs-keyword">case</span> <span class="hljs-number">500</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(error.message, <span class="hljs-number">500</span>);
+    }
+});
+
+<span class="hljs-keyword">const</span> info = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'A '</span> + method + <span class="hljs-string">' request was made to '</span> + <span class="hljs-built_in">JSON</span>.stringify(path));
+    <span class="hljs-keyword">return</span> next();
+};
+
+<span class="hljs-keyword">const</span> infoAll = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The middleware start"</span>);
+    <span class="hljs-keyword">return</span> next();
+};
+
+<span class="hljs-keyword">const</span> changeOut = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Finaliza"</span>);
+    <span class="hljs-keyword">return</span> next();
+};
+
+<span class="hljs-keyword">const</span> finish = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Fin"</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response({greet:<span class="hljs-string">"Bye"</span>}, <span class="hljs-number">200</span>);
+};
+
+<span class="hljs-meta">@BeforeAll</span>(infoAll)
+<span class="hljs-meta">@AfterAll</span>(finish)
+<span class="hljs-meta">@Endpoint</span>(<span class="hljs-string">"user"</span>)
+<span class="hljs-keyword">class</span> User {
+    <span class="hljs-meta">@Before</span>(info)
+    <span class="hljs-meta">@Get</span>(<span class="hljs-string">""</span>)
+    <span class="hljs-keyword">public</span> getUsers() {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(users, <span class="hljs-number">200</span>);
+    }
+    <span class="hljs-meta">@Get</span>(<span class="hljs-string">"#id"</span>)
+    <span class="hljs-keyword">public</span> getUser(url: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> id = url.args.id;
+        <span class="hljs-keyword">const</span> user: <span class="hljs-built_in">any</span> = users.find(<span class="hljs-function">(<span class="hljs-params">elment</span>) =&gt;</span> elment.id === id);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(user, <span class="hljs-number">200</span>);
+    }
+
+    <span class="hljs-meta">@Post</span>(<span class="hljs-string">""</span>)
+    <span class="hljs-keyword">public</span> addUser(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> user = body;
+        users.push(user);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(users, <span class="hljs-number">200</span>);
+    }
+
+    <span class="hljs-meta">@Put</span>(<span class="hljs-string">"#id"</span>)
+    <span class="hljs-keyword">public</span> updateUser(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> id = url.args.id;
+        <span class="hljs-keyword">const</span> resp = users.map(<span class="hljs-function">(<span class="hljs-params">user</span>) =&gt;</span> {
+            <span class="hljs-keyword">const</span> value = user;
+            <span class="hljs-keyword">if</span> (value.id === id) {
+                value.permission = body.permission;
+            }
+            <span class="hljs-keyword">return</span> value;
+        });
+        <span class="hljs-keyword">if</span> (!resp) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> HttpError(<span class="hljs-string">"User not found"</span>, <span class="hljs-number">404</span>);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(resp, <span class="hljs-number">200</span>);
+        }
+    }
+
+    <span class="hljs-meta">@Delete</span>(<span class="hljs-string">"#id"</span>)
+    <span class="hljs-keyword">public</span> deleteUser(url: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> id = url.args.id;
+        <span class="hljs-keyword">const</span> index = users.findIndex(<span class="hljs-function">(<span class="hljs-params">user: <span class="hljs-built_in">any</span></span>) =&gt;</span> user.id === id);
+        users.splice(index, <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(users, <span class="hljs-number">200</span>);
+    }
+}
+
+<span class="hljs-meta">@Endpoint</span>(<span class="hljs-string">"greeting"</span>)
+<span class="hljs-keyword">class</span> Greeting {
+    <span class="hljs-meta">@After</span>(changeOut)
+    <span class="hljs-meta">@Get</span>(<span class="hljs-string">""</span>)
+    <span class="hljs-keyword">public</span> getGreeting(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>, headers: <span class="hljs-built_in">any</span>, next: <span class="hljs-built_in">Function</span>) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"HELLO EVERYBODY"</span>);
+        <span class="hljs-keyword">return</span> next()
+    }
+}
+
+<span class="hljs-keyword">const</span> endpoints = [<span class="hljs-keyword">new</span> User(), <span class="hljs-keyword">new</span> Greeting()];
+
+<span class="hljs-keyword">const</span> configRouter: IRouterOptions = {
+  road: app,
+  endpoints,
+  connectionMode: <span class="hljs-literal">true</span>,
+  verbose: <span class="hljs-literal">true</span>,
+}
+
+<span class="hljs-keyword">new</span> SetRouter(configRouter);
+
+server.listen(<span class="hljs-number">3000</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Serve is running in the port 3000"</span>);
+});
+
+</code></pre>
+				<h3 id="config-your-project-">Config your project:</h3>
+				<pre><code class="lang-json">{
+    <span class="hljs-attr">"compilerOptions"</span>: {
+        <span class="hljs-attr">"module"</span>: <span class="hljs-string">"commonjs"</span>,
+        <span class="hljs-attr">"target"</span>: <span class="hljs-string">"es6"</span>,
+        <span class="hljs-attr">"strict"</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">"sourceMap"</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">"rootDir"</span>: <span class="hljs-string">"."</span>,
+        <span class="hljs-attr">"experimentalDecorators"</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">"emitDecoratorMetadata"</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">"outDir"</span>: <span class="hljs-string">"./lib"</span>,
+        <span class="hljs-attr">"declaration"</span>: <span class="hljs-literal">true</span>
+    },
+
+    <span class="hljs-attr">"include"</span>: [
+        <span class="hljs-string">"src/index.ts"</span>
+    ]
+}
+</code></pre>
+				<h2 id="run-spiel-server-tests">Run Spiel Server tests</h2>
+				<p><code>npm test</code></p>
+				<h2 id="license">License</h2>
+				<p>Spiel Server is MIT licensed. See <a href="https://github.com/spieljs/spiel-server/blob/master/LICENSE">license</a></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_index_.html">"index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_server_decorators_index_.html">"server/decorators/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_server_decorators_router_.html">"server/decorators/router"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_server_helpers_getpropsobject_.html">"server/helpers/get<wbr>Props<wbr>Object"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_server_helpers_index_.html">"server/helpers/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_server_helpers_interfaces_.html">"server/helpers/interfaces"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_server_index_.html">"server/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_server_set_router_.html">"server/set-<wbr>router"</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
