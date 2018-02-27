@@ -36,12 +36,12 @@ const infoAll = (method: string, path: string, body: any, headers: Headers, next
 };
 
 const changeOut = (method: string, path: string, body: any, headers: Headers, next: Function) => {
-    console.log("Finaliza");
+    console.log("Finish");
     return next();
 };
 
 const finish = (method: string, path: string, body: any, headers: Headers, next: Function) => {
-    console.log("Fin");
+    console.log("End");
     return new Response({greet:"Bye"}, 200);
 };
 
@@ -164,12 +164,12 @@ const infoAll = (method: string, path: string, body: any, headers: Headers, next
 };
 
 const changeOut = (method: string, path: string, body: any, headers: Headers, next: Function) => {
-    console.log("Finaliza");
+    console.log("Finish");
     return next();
 };
 
 const finish = (method: string, path: string, body: any, headers: Headers, next: Function) => {
-    console.log("Fin");
+    console.log("End");
     return new Response({greet:"Bye"}, 200);
 };
 
