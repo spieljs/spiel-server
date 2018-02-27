@@ -5,7 +5,7 @@ Spiel server is a middleware framework to make easy create backend applications.
 * It uses [Roads](https://github.com/Dashron/roads) as core which make possible to attach the middlewares in HTTP servers like Koa.js, Express.js or use [roads-server](https://github.com/Dashron/roads-server) which is also integrate.
 
 ## Api documentation
-* Spiel server API
+* [Spiel server API](https://spieljs.github.io/spiel-server)
 
 ## How use it
 ### Create your endpoints
