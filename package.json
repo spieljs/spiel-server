@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "lab -v --sourcemaps --transform node_modules/lab-transform-typescript test/spiel.server.test.ts",
-    "lint": "tslint src/**/*.ts"
+    "lint": "tslint src/**/*.ts",
+    "docs": "gulp typedoc"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
   },
   "homepage": "https://github.com/spieljs/spiel-server#readme",
   "devDependencies": {
+    "@types/code": "^4.0.4",
     "@types/request-promise": "^4.1.41",
     "code": "^5.2.0",
     "gulp": "^3.9.1",
@@ -33,11 +35,13 @@
     "nodemon": "^1.14.12",
     "request-promise": "^4.2.2",
     "ts-loader": "^3.5.0",
+    "typedoc": "^0.10.0",
     "typedocs": "^0.6.3",
     "typescript": "2.7.2"
   },
   "dependencies": {
-    "roads": "github:dancespiele/roads#types",
+    "@types/roads": "^5.0.0",
+    "roads": "5.0.0-alpha.13",
     "roads-server": "github:dancespiele/roads-server#types"
   }
 }

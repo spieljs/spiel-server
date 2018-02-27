@@ -38,7 +38,7 @@ export class SetRouter {
   }
 
   protected infoRequest() {
-    this.road.use((method: string, request: any, body: any, Headers: Headers, next: Function) => {
+    this.road.use((method: string, request: any, body: any, headers: Headers, next: Function) => {
       console.log(`${method} ${request.path}`);
       return next();
     });

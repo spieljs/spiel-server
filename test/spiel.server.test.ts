@@ -38,6 +38,7 @@ lab.experiment("Server", () => {
         };
         const response: any = await rp(options);
         Code.expect(response).to.have.length(5);
+        console.log(response[4]);
         Code.expect(response[4].name).to.be.equal("Pepe");
     });
 
@@ -51,7 +52,7 @@ lab.experiment("Server", () => {
             uri: "http://localhost:3000/user/5",
         };
         const response: any = await rp(options);
-        const isUpdate = response.some((user) => user.name === "Pepe" && user.permission === "admin");
+        const isUpdate = response.some((user: any) => user.name === "Pepe" && user.permission === "admin");
         Code.expect(isUpdate).to.be.true();
     });
 

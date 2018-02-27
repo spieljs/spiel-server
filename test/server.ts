@@ -1,4 +1,4 @@
-import {After, AfterAll, Before, BeforeAll, Delete, Get, HttpError, IRouter, IRouterOptions, middleware, Post, Put, Response, Road, Endpoint, Server, SetRouter} from "../src";
+import {After, AfterAll, Before, BeforeAll, Delete, Get, HttpError, IRouterOptions, middleware, Post, Put, Response, Road, Endpoint, Server, SetRouter} from "../src";
 import {users} from "./assets";
 
 const app = new Road();
@@ -106,5 +106,5 @@ const configRouter: IRouterOptions = {
 new SetRouter(configRouter);
 
 server.listen(3000, () => {
-    console.log("Serve is running in the port 3000");
+  console.log("Serve is running in the port 3000");
 });

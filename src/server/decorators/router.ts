@@ -1,5 +1,5 @@
 import { middleware, Road } from "roads";
-import { getAllMethods, IRoute, IRouteMethod } from "../helpers";
+import { getPropsObject, IRoute, IRouteMethod } from "../helpers";
 
 const routes: IRoute = {};
 
