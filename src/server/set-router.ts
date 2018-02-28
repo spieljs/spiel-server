@@ -3,6 +3,7 @@ import { EndpointsConnect, getPropsObject, IEndpoint, IEndpoints, IRouteMethod, 
 
 /**
  * Set the router with the endpoints and middlewares
+ * @see <a href="https://github.com/spieljs/spiel-server#setting-the-router" target="_blank">Setting router</a>
  */
 export class SetRouter {
   protected endpoints: IEndpoint[];

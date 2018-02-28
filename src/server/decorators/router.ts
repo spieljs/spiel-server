@@ -6,6 +6,7 @@ const routes: IRoute = {};
 /**
  * Decoration to add endpoint route
  * @param path Path of the enpoint
+ * @see <a href="https://github.com/spieljs/spiel-server#create-your-endpoints" target="_blank">Create your enpoints</a>
  */
 export function Endpoint(path: string) {
   return function <T extends { new(...args: any[]): {} }>(constructor: T) {
@@ -18,6 +19,7 @@ export function Endpoint(path: string) {
 /**
  * Middleware to excute bafore all the endpoints
  * @param middleware Function which is executed from the middleware
+ * @see <a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">Create your middleware</a>
  */
 export function BeforeAll(middleware: Function) {
   const before = "before";
@@ -43,6 +45,7 @@ export function BeforeAll(middleware: Function) {
 /**
  * Middleware to excute after all the endpoints
  * @param middleware Function which is executed from the middleware
+ * @see <a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">Create your middleware</a>
  */
 export function AfterAll(middleware: Function) {
   const after = "after";
@@ -68,6 +71,7 @@ export function AfterAll(middleware: Function) {
 /**
  * Middleware to excute bafore the method
  * @param middleware Function which is executed from the middleware
+* @see <a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">Create your middleware</a>
  */
 export function Before(middleware: Function) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
@@ -87,6 +91,7 @@ export function Before(middleware: Function) {
 /**
  * Middleware to excute after the method
  * @param middleware Function which is executed from the middleware
+ * @see <a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">Create your middleware</a>
  */
 export function After(middleware: Function) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
