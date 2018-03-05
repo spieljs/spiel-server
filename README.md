@@ -1,5 +1,5 @@
 # Spiel Server
-[![Travis CI](https://travis-ci.org/spieljs/spiel-client.svg?branch=master)](https://travis-ci.org/spieljs/spiel-client)
+[![Travis CI](https://travis-ci.org/spieljs/spiel-server.svg?branch=master)](https://travis-ci.org/spieljs/spiel-server)
 [![npm](https://img.shields.io/npm/v/spiel-server.svg)](https://www.npmjs.org/package/spiel-server)
 
 Spiel server is a middleware framework to make easy create backend applications.
