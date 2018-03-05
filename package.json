@@ -1,7 +1,7 @@
 {
   "name": "spiel-server",
   "version": "0.1.0",
-  "description": "Backend framework to make easier to write backend applications",
+  "description": "Middleware framework to make easy to write backend applications",
   "main": "index.js",
   "scripts": {
     "test": "lab -v --sourcemaps --transform node_modules/lab-transform-typescript test/spiel.server.test.ts",
