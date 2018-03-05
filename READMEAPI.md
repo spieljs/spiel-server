@@ -31,7 +31,7 @@ class User {
 }
 ```
 Notice that you will have the body request already parsed in `this.body`
-if you want the body whitout parse (string) then you have to past body by argument like this:
+if you want the body without parse (string) then you have to past body by argument like this:
 ```typescript
 @Endpoint("user")
 class User {
