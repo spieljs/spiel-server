@@ -104,7 +104,7 @@
 					<div class="tsd-signature tsd-kind-icon">routes<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_server_helpers_interfaces_.iroute.html" class="tsd-signature-type">IRoute</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/c964a3c/src/server/decorators/router.ts#L4">server/decorators/router.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/f01b4ca/src/server/decorators/router.ts#L4">server/decorators/router.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -115,13 +115,13 @@
 					<a name="after" class="tsd-anchor"></a>
 					<h3>After</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">After<span class="tsd-signature-symbol">(</span>middleware<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
+						<li class="tsd-signature tsd-kind-icon">After<span class="tsd-signature-symbol">(</span>middlw<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/c964a3c/src/server/decorators/router.ts#L96">server/decorators/router.ts:96</a></li>
+									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/f01b4ca/src/server/decorators/router.ts#L102">server/decorators/router.ts:102</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -130,17 +130,33 @@
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
-									<dd><p><a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">Create your middleware</a></p>
+									<dd><p><a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">
+										Create your middleware</a></p>
 									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>middleware: <span class="tsd-signature-type">Function</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Function which is executed from the middleware</p>
-									</div>
+									<h5>middlw: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
@@ -151,13 +167,13 @@
 					<a name="afterall" class="tsd-anchor"></a>
 					<h3>After<wbr>All</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">After<wbr>All<span class="tsd-signature-symbol">(</span>middleware<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
+						<li class="tsd-signature tsd-kind-icon">After<wbr>All<span class="tsd-signature-symbol">(</span>middlw<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/c964a3c/src/server/decorators/router.ts#L50">server/decorators/router.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/f01b4ca/src/server/decorators/router.ts#L54">server/decorators/router.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -166,17 +182,36 @@
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
-									<dd><p><a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">Create your middleware</a></p>
+									<dd><p><a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">
+										Create your middleware</a></p>
 									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>middleware: <span class="tsd-signature-type">Function</span></h5>
+									<h5>middlw: <span class="tsd-signature-type">function</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Function which is executed from the middleware</p>
 									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
@@ -187,13 +222,13 @@
 					<a name="before" class="tsd-anchor"></a>
 					<h3>Before</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">Before<span class="tsd-signature-symbol">(</span>middleware<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
+						<li class="tsd-signature tsd-kind-icon">Before<span class="tsd-signature-symbol">(</span>middlw<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/c964a3c/src/server/decorators/router.ts#L76">server/decorators/router.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/f01b4ca/src/server/decorators/router.ts#L81">server/decorators/router.ts:81</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -202,17 +237,33 @@
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
-									<dd><p><a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">Create your middleware</a></p>
+									<dd><p><a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">
+										Create your middleware</a></p>
 									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>middleware: <span class="tsd-signature-type">Function</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Function which is executed from the middleware</p>
-									</div>
+									<h5>middlw: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
@@ -223,13 +274,13 @@
 					<a name="beforeall" class="tsd-anchor"></a>
 					<h3>Before<wbr>All</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">Before<wbr>All<span class="tsd-signature-symbol">(</span>middleware<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
+						<li class="tsd-signature tsd-kind-icon">Before<wbr>All<span class="tsd-signature-symbol">(</span>middlw<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/c964a3c/src/server/decorators/router.ts#L24">server/decorators/router.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/f01b4ca/src/server/decorators/router.ts#L27">server/decorators/router.ts:27</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -238,17 +289,36 @@
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
-									<dd><p><a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">Create your middleware</a></p>
+									<dd><p><a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">
+										Create your middleware</a></p>
 									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>middleware: <span class="tsd-signature-type">Function</span></h5>
+									<h5>middlw: <span class="tsd-signature-type">function</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Function which is executed from the middleware</p>
 									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
@@ -265,7 +335,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/c964a3c/src/server/decorators/router.ts#L115">server/decorators/router.ts:115</a></li>
+									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/f01b4ca/src/server/decorators/router.ts#L121">server/decorators/router.ts:121</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -296,7 +366,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/c964a3c/src/server/decorators/router.ts#L11">server/decorators/router.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/f01b4ca/src/server/decorators/router.ts#L12">server/decorators/router.ts:12</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -305,7 +375,8 @@
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
-									<dd><p><a href="https://github.com/spieljs/spiel-server#create-your-endpoints" target="_blank">Create your enpoints</a></p>
+									<dd><p><a href="https://github.com/spieljs/spiel-server#create-your-endpoints" target="_blank">
+										Create your enpoints</a></p>
 									</dd>
 								</dl>
 							</div>
@@ -332,7 +403,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/c964a3c/src/server/decorators/router.ts#L132">server/decorators/router.ts:132</a></li>
+									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/f01b4ca/src/server/decorators/router.ts#L138">server/decorators/router.ts:138</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -363,7 +434,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/c964a3c/src/server/decorators/router.ts#L149">server/decorators/router.ts:149</a></li>
+									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/f01b4ca/src/server/decorators/router.ts#L155">server/decorators/router.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -394,7 +465,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/c964a3c/src/server/decorators/router.ts#L166">server/decorators/router.ts:166</a></li>
+									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/f01b4ca/src/server/decorators/router.ts#L172">server/decorators/router.ts:172</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -425,7 +496,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/c964a3c/src/server/decorators/router.ts#L183">server/decorators/router.ts:183</a></li>
+									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/f01b4ca/src/server/decorators/router.ts#L189">server/decorators/router.ts:189</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -456,7 +527,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/c964a3c/src/server/decorators/router.ts#L200">server/decorators/router.ts:200</a></li>
+									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/f01b4ca/src/server/decorators/router.ts#L206">server/decorators/router.ts:206</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -487,7 +558,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/c964a3c/src/server/decorators/router.ts#L217">server/decorators/router.ts:217</a></li>
+									<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/f01b4ca/src/server/decorators/router.ts#L223">server/decorators/router.ts:223</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

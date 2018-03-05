@@ -65,6 +65,8 @@
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
 				<h1 id="spiel-server">Spiel Server</h1>
+				<p><a href="https://travis-ci.org/spieljs/spiel-client"><img src="https://travis-ci.org/spieljs/spiel-client.svg?branch=master" alt="Travis CI"></a>
+				<a href="https://www.npmjs.org/package/spiel-server"><img src="https://img.shields.io/npm/v/spiel-server.svg" alt="npm"></a></p>
 				<p>Spiel server is a middleware framework to make easy create backend applications.</p>
 				<ul>
 					<li>You can create easily endpoints with decorators and make more logic your code.</li>
@@ -73,43 +75,80 @@
 				</ul>
 				<h2 id="how-use-it">How use it</h2>
 				<h3 id="create-your-endpoints">Create your endpoints</h3>
-				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {Endpoint, Get, Road, SetRouter} <span class="hljs-keyword">from</span> <span class="hljs-string">"spiel-server"</span>;
-<span class="hljs-meta">@Endpoint</span>(<span class="hljs-string">"greeting"</span>)
-<span class="hljs-keyword">class</span> Greeting {
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {Endpoint, Get, IBody, Road, SetRouter} <span class="hljs-keyword">from</span> <span class="hljs-string">"spiel-server"</span>;
+
+<span class="hljs-meta">@Endpoint</span>(<span class="hljs-string">"user"</span>)
+<span class="hljs-keyword">class</span> User {
+    <span class="hljs-keyword">private</span> body: IBody;
+
+    <span class="hljs-meta">@Before</span>(info)
     <span class="hljs-meta">@Get</span>(<span class="hljs-string">""</span>)
-    <span class="hljs-keyword">public</span> getGreeting(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>, headers: <span class="hljs-built_in">any</span>, next: <span class="hljs-built_in">Function</span>) {
-        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"HELLO EVERYBODY"</span>);
-        <span class="hljs-keyword">return</span> next()
+    <span class="hljs-keyword">public</span> getUsers() {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(users, <span class="hljs-number">200</span>);
+    }
+
+    <span class="hljs-meta">@Post</span>(<span class="hljs-string">""</span>)
+    <span class="hljs-keyword">public</span> addUser(url: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">this</span>.body;
+        users.push(user);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(users, <span class="hljs-number">200</span>);
+    }
+}
+</code></pre>
+				<p>Notice that you will have the body request already parsed in <code>this.body</code>
+				if you want the body whitout parse (string) then you have to past body by argument like this:</p>
+				<pre><code class="lang-typescript"><span class="hljs-meta">@Endpoint</span>(<span class="hljs-string">"user"</span>)
+<span class="hljs-keyword">class</span> User {
+    <span class="hljs-keyword">private</span> body: IBody;
+
+    <span class="hljs-meta">@Post</span>(<span class="hljs-string">""</span>)
+    <span class="hljs-keyword">public</span> addUser(url: <span class="hljs-built_in">any</span>, body: IBody) {
+        <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">this</span>.body;
+        users.push(user);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(users, <span class="hljs-number">200</span>);
     }
 }
 </code></pre>
 				<h3 id="create-your-middlewares">Create your middlewares</h3>
-				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {After, AfterAll, Before, BeforeAll, Delete, Get, middleware, Post, Put, Response, Road, Endpoint, SetRouter} <span class="hljs-keyword">from</span> <span class="hljs-string">"spiel-server"</span>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {After, AfterAll, Before, BeforeAll, Delete, Endpoint, Get, HttpError,
+    IBody, IRouterOptions, middleware, Post, Put, Response,
+    Road, Server, SetRouter} <span class="hljs-keyword">from</span> <span class="hljs-string">"../src"</span>;
+<span class="hljs-keyword">import</span> {users} <span class="hljs-keyword">from</span> <span class="hljs-string">"./assets"</span>;
 
-<span class="hljs-keyword">const</span> info = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'A '</span> + method + <span class="hljs-string">' request was made to '</span> + <span class="hljs-built_in">JSON</span>.stringify(path));
-    <span class="hljs-keyword">return</span> next();
+<span class="hljs-keyword">const</span> info = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: IBody, headers: Headers, next: (<span class="hljs-params"></span>) =&gt; <span class="hljs-built_in">any</span></span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (path.match(<span class="hljs-regexp">/^\/user/g</span>)) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`A <span class="hljs-subst">${method}</span> request was made to <span class="hljs-subst">${JSON.stringify(path)}</span>`</span>);
+        <span class="hljs-keyword">return</span> next();
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> next();
+    }
 };
 
-<span class="hljs-keyword">const</span> infoAll = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
+<span class="hljs-keyword">const</span> infoAll = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: IBody, headers: Headers, next: (<span class="hljs-params"></span>) =&gt; <span class="hljs-built_in">any</span></span>) =&gt;</span> {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The middleware start"</span>);
     <span class="hljs-keyword">return</span> next();
 };
 
-<span class="hljs-keyword">const</span> changeOut = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Finish"</span>);
-    <span class="hljs-keyword">return</span> next();
+<span class="hljs-keyword">const</span> changeResponse = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: IBody, headers: Headers, next: (<span class="hljs-params"></span>) =&gt; <span class="hljs-built_in">any</span></span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (path.match(<span class="hljs-regexp">/^\/greeting/g</span>)) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"End"</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response({greet: <span class="hljs-string">"Bye"</span>}, <span class="hljs-number">200</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> next();
+    }
 };
 
-<span class="hljs-keyword">const</span> finish = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"End"</span>);
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response({greet:<span class="hljs-string">"Bye"</span>}, <span class="hljs-number">200</span>);
+<span class="hljs-keyword">const</span> finish = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: IBody, headers: Headers, next: (<span class="hljs-params"></span>) =&gt; <span class="hljs-built_in">any</span></span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Finish"</span>);
+    <span class="hljs-keyword">return</span> next();
 };
 
 <span class="hljs-meta">@BeforeAll</span>(infoAll)
 <span class="hljs-meta">@AfterAll</span>(finish)
 <span class="hljs-meta">@Endpoint</span>(<span class="hljs-string">"user"</span>)
 <span class="hljs-keyword">class</span> User {
+    <span class="hljs-keyword">private</span> body: IBody;
+
     <span class="hljs-meta">@Before</span>(info)
     <span class="hljs-meta">@Get</span>(<span class="hljs-string">""</span>)
     <span class="hljs-keyword">public</span> getUsers() {
@@ -123,19 +162,19 @@
     }
 
     <span class="hljs-meta">@Post</span>(<span class="hljs-string">""</span>)
-    <span class="hljs-keyword">public</span> addUser(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>) {
-        <span class="hljs-keyword">const</span> user = body;
+    <span class="hljs-keyword">public</span> addUser(url: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">this</span>.body;
         users.push(user);
         <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(users, <span class="hljs-number">200</span>);
     }
 
     <span class="hljs-meta">@Put</span>(<span class="hljs-string">"#id"</span>)
-    <span class="hljs-keyword">public</span> updateUser(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>) {
+    <span class="hljs-keyword">public</span> updateUser(url: <span class="hljs-built_in">any</span>) {
         <span class="hljs-keyword">const</span> id = url.args.id;
         <span class="hljs-keyword">const</span> resp = users.map(<span class="hljs-function">(<span class="hljs-params">user</span>) =&gt;</span> {
             <span class="hljs-keyword">const</span> value = user;
             <span class="hljs-keyword">if</span> (value.id === id) {
-                value.permission = body.permission;
+                value.permission = <span class="hljs-keyword">this</span>.body.permission;
             }
             <span class="hljs-keyword">return</span> value;
         });
@@ -152,6 +191,16 @@
         <span class="hljs-keyword">const</span> index = users.findIndex(<span class="hljs-function">(<span class="hljs-params">user: <span class="hljs-built_in">any</span></span>) =&gt;</span> user.id === id);
         users.splice(index, <span class="hljs-number">1</span>);
         <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(users, <span class="hljs-number">200</span>);
+    }
+}
+
+<span class="hljs-meta">@Endpoint</span>(<span class="hljs-string">"greeting"</span>)
+<span class="hljs-keyword">class</span> Greeting {
+    <span class="hljs-meta">@After</span>(changeResponse)
+    <span class="hljs-meta">@Get</span>(<span class="hljs-string">""</span>)
+    <span class="hljs-keyword">public</span> getGreeting(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>, headers: <span class="hljs-built_in">any</span>, next: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {}) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"HELLO EVERYBODY"</span>);
+        <span class="hljs-keyword">return</span> next();
     }
 }
 </code></pre>
@@ -181,7 +230,6 @@
 }
 
 <span class="hljs-keyword">new</span> SetRouter(configRouter);
-
 </code></pre>
 				<h3 id="using-the-roads-api">Using the roads API</h3>
 				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {Road, middleware} <span class="hljs-keyword">from</span> <span class="hljs-string">"spiel-server"</span>;
@@ -192,7 +240,9 @@ app.use(middleware.cors([<span class="hljs-string">'http://localhost:8080'</span
 </code></pre>
 				<p>About the Roads Api see <a href="https://github.com/Dashron/roads#index">in Roads docs</a></p>
 				<h3 id="complete-example-with-server">Complete example with Server</h3>
-				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {After, AfterAll, Before, BeforeAll, Delete, Get, HttpError, IRouterOptions, middleware, Post, Put, Response, Road, Endpoint, Server, SetRouter} <span class="hljs-keyword">from</span> <span class="hljs-string">"spiel-server"</span>;
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {After, AfterAll, Before, BeforeAll, Delete, Endpoint, Get, HttpError,
+    IBody, IRouterOptions, middleware, Post, Put, Response,
+    Road, Server, SetRouter} <span class="hljs-keyword">from</span> <span class="hljs-string">"../src"</span>;
 <span class="hljs-keyword">import</span> {users} <span class="hljs-keyword">from</span> <span class="hljs-string">"./assets"</span>;
 
 <span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> Road();
@@ -209,30 +259,40 @@ app.use(middleware.cors([<span class="hljs-string">'http://localhost:8080'</span
     }
 });
 
-<span class="hljs-keyword">const</span> info = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'A '</span> + method + <span class="hljs-string">' request was made to '</span> + <span class="hljs-built_in">JSON</span>.stringify(path));
-    <span class="hljs-keyword">return</span> next();
+<span class="hljs-keyword">const</span> info = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: IBody, headers: Headers, next: (<span class="hljs-params"></span>) =&gt; <span class="hljs-built_in">any</span></span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (path.match(<span class="hljs-regexp">/^\/user/g</span>)) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`A <span class="hljs-subst">${method}</span> request was made to <span class="hljs-subst">${JSON.stringify(path)}</span>`</span>);
+        <span class="hljs-keyword">return</span> next();
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> next();
+    }
 };
 
-<span class="hljs-keyword">const</span> infoAll = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
+<span class="hljs-keyword">const</span> infoAll = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: IBody, headers: Headers, next: (<span class="hljs-params"></span>) =&gt; <span class="hljs-built_in">any</span></span>) =&gt;</span> {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The middleware start"</span>);
     <span class="hljs-keyword">return</span> next();
 };
 
-<span class="hljs-keyword">const</span> changeOut = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Finish"</span>);
-    <span class="hljs-keyword">return</span> next();
+<span class="hljs-keyword">const</span> changeResponse = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: IBody, headers: Headers, next: (<span class="hljs-params"></span>) =&gt; <span class="hljs-built_in">any</span></span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (path.match(<span class="hljs-regexp">/^\/greeting/g</span>)) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"End"</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response({greet: <span class="hljs-string">"Bye"</span>}, <span class="hljs-number">200</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> next();
+    }
 };
 
-<span class="hljs-keyword">const</span> finish = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: <span class="hljs-built_in">any</span>, headers: Headers, next: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"End"</span>);
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response({greet:<span class="hljs-string">"Bye"</span>}, <span class="hljs-number">200</span>);
+<span class="hljs-keyword">const</span> finish = <span class="hljs-function">(<span class="hljs-params">method: <span class="hljs-built_in">string</span>, path: <span class="hljs-built_in">string</span>, body: IBody, headers: Headers, next: (<span class="hljs-params"></span>) =&gt; <span class="hljs-built_in">any</span></span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Finish"</span>);
+    <span class="hljs-keyword">return</span> next();
 };
 
 <span class="hljs-meta">@BeforeAll</span>(infoAll)
 <span class="hljs-meta">@AfterAll</span>(finish)
 <span class="hljs-meta">@Endpoint</span>(<span class="hljs-string">"user"</span>)
 <span class="hljs-keyword">class</span> User {
+    <span class="hljs-keyword">private</span> body: IBody;
+
     <span class="hljs-meta">@Before</span>(info)
     <span class="hljs-meta">@Get</span>(<span class="hljs-string">""</span>)
     <span class="hljs-keyword">public</span> getUsers() {
@@ -246,19 +306,19 @@ app.use(middleware.cors([<span class="hljs-string">'http://localhost:8080'</span
     }
 
     <span class="hljs-meta">@Post</span>(<span class="hljs-string">""</span>)
-    <span class="hljs-keyword">public</span> addUser(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>) {
-        <span class="hljs-keyword">const</span> user = body;
+    <span class="hljs-keyword">public</span> addUser(url: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">this</span>.body;
         users.push(user);
         <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Response(users, <span class="hljs-number">200</span>);
     }
 
     <span class="hljs-meta">@Put</span>(<span class="hljs-string">"#id"</span>)
-    <span class="hljs-keyword">public</span> updateUser(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>) {
+    <span class="hljs-keyword">public</span> updateUser(url: <span class="hljs-built_in">any</span>) {
         <span class="hljs-keyword">const</span> id = url.args.id;
         <span class="hljs-keyword">const</span> resp = users.map(<span class="hljs-function">(<span class="hljs-params">user</span>) =&gt;</span> {
             <span class="hljs-keyword">const</span> value = user;
             <span class="hljs-keyword">if</span> (value.id === id) {
-                value.permission = body.permission;
+                value.permission = <span class="hljs-keyword">this</span>.body.permission;
             }
             <span class="hljs-keyword">return</span> value;
         });
@@ -280,29 +340,28 @@ app.use(middleware.cors([<span class="hljs-string">'http://localhost:8080'</span
 
 <span class="hljs-meta">@Endpoint</span>(<span class="hljs-string">"greeting"</span>)
 <span class="hljs-keyword">class</span> Greeting {
-    <span class="hljs-meta">@After</span>(changeOut)
+    <span class="hljs-meta">@After</span>(changeResponse)
     <span class="hljs-meta">@Get</span>(<span class="hljs-string">""</span>)
-    <span class="hljs-keyword">public</span> getGreeting(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>, headers: <span class="hljs-built_in">any</span>, next: <span class="hljs-built_in">Function</span>) {
+    <span class="hljs-keyword">public</span> getGreeting(url: <span class="hljs-built_in">any</span>, body: <span class="hljs-built_in">any</span>, headers: <span class="hljs-built_in">any</span>, next: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {}) {
         <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"HELLO EVERYBODY"</span>);
-        <span class="hljs-keyword">return</span> next()
+        <span class="hljs-keyword">return</span> next();
     }
 }
 
 <span class="hljs-keyword">const</span> endpoints = [<span class="hljs-keyword">new</span> User(), <span class="hljs-keyword">new</span> Greeting()];
 
 <span class="hljs-keyword">const</span> configRouter: IRouterOptions = {
-  road: app,
-  endpoints,
   connectionMode: <span class="hljs-literal">true</span>,
+  endpoints,
+  road: app,
   verbose: <span class="hljs-literal">true</span>,
-}
+};
 
 <span class="hljs-keyword">new</span> SetRouter(configRouter);
 
 server.listen(<span class="hljs-number">3000</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Serve is running in the port 3000"</span>);
 });
-
 </code></pre>
 				<h3 id="config-your-project-">Config your project:</h3>
 				<pre><code class="lang-json">{
