@@ -1,4 +1,7 @@
 # Spiel Server
+[![Travis CI](https://travis-ci.org/spieljs/spiel-client.svg?branch=master)](https://travis-ci.org/spieljs/spiel-client)
+[![npm](https://img.shields.io/npm/v/spiel-server.svg)](https://www.npmjs.org/package/spiel-server)
+
 Spiel server is a middleware framework to make easy create backend applications.
 * You can create easily endpoints with decorators and make more logic your code.
 * Spiel server creates automatically a root endpoint which response with all the endpoints and its methods of the backend application.
@@ -10,45 +13,83 @@ Spiel server is a middleware framework to make easy create backend applications.
 ## How use it
 ### Create your endpoints
 ```typescript
-import {Endpoint, Get, Road, SetRouter} from "spiel-server";
-@Endpoint("greeting")
-class Greeting {
+import {Endpoint, Get, IBody, Road, SetRouter} from "spiel-server";
+
+@Endpoint("user")
+class User {
+    private body: IBody;
+
+    @Before(info)
     @Get("")
-    public getGreeting(url: any, body: any, headers: any, next: Function) {
-        console.log("HELLO EVERYBODY");
-        return next()
+    public getUsers() {
+        return new Response(users, 200);
+    }
+
+    @Post("")
+    public addUser(url: any) {
+        const user = this.body;
+        users.push(user);
+        return new Response(users, 200);
+    }
+}
+```
+Notice that you will have the body request already parsed in `this.body`
+if you want the body whitout parse (string) then you have to past body by argument like this:
+```typescript
+@Endpoint("user")
+class User {
+    private body: IBody;
+
+    @Post("")
+    public addUser(url: any, body: IBody) {
+        const user = this.body;
+        users.push(user);
+        return new Response(users, 200);
     }
 }
 ```
 
 ### Create your middlewares
 ```typescript
-import {After, AfterAll, Before, BeforeAll, Delete, Get, middleware, Post, Put, Response, Road, Endpoint, SetRouter} from "spiel-server"
+import {After, AfterAll, Before, BeforeAll, Delete, Endpoint, Get, HttpError,
+    IBody, IRouterOptions, middleware, Post, Put, Response,
+    Road, Server, SetRouter} from "../src";
+import {users} from "./assets";
 
-const info = (method: string, path: string, body: any, headers: Headers, next: Function) => {
-    console.log('A ' + method + ' request was made to ' + JSON.stringify(path));
-    return next();
+const info = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
+    if (path.match(/^\/user/g)) {
+        console.log(`A ${method} request was made to ${JSON.stringify(path)}`);
+        return next();
+    } else {
+        return next();
+    }
 };
 
-const infoAll = (method: string, path: string, body: any, headers: Headers, next: Function) => {
+const infoAll = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
     console.log("The middleware start");
     return next();
 };
 
-const changeOut = (method: string, path: string, body: any, headers: Headers, next: Function) => {
-    console.log("Finish");
-    return next();
+const changeResponse = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
+    if (path.match(/^\/greeting/g)) {
+        console.log("End");
+        return new Response({greet: "Bye"}, 200);
+    } else {
+        return next();
+    }
 };
 
-const finish = (method: string, path: string, body: any, headers: Headers, next: Function) => {
-    console.log("End");
-    return new Response({greet:"Bye"}, 200);
+const finish = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
+    console.log("Finish");
+    return next();
 };
 
 @BeforeAll(infoAll)
 @AfterAll(finish)
 @Endpoint("user")
 class User {
+    private body: IBody;
+
     @Before(info)
     @Get("")
     public getUsers() {
@@ -62,19 +103,19 @@ class User {
     }
 
     @Post("")
-    public addUser(url: any, body: any) {
-        const user = body;
+    public addUser(url: any) {
+        const user = this.body;
         users.push(user);
         return new Response(users, 200);
     }
 
     @Put("#id")
-    public updateUser(url: any, body: any) {
+    public updateUser(url: any) {
         const id = url.args.id;
         const resp = users.map((user) => {
             const value = user;
             if (value.id === id) {
-                value.permission = body.permission;
+                value.permission = this.body.permission;
             }
             return value;
         });
@@ -91,6 +132,16 @@ class User {
         const index = users.findIndex((user: any) => user.id === id);
         users.splice(index, 1);
         return new Response(users, 200);
+    }
+}
+
+@Endpoint("greeting")
+class Greeting {
+    @After(changeResponse)
+    @Get("")
+    public getGreeting(url: any, body: any, headers: any, next: () => {}) {
+        console.log("HELLO EVERYBODY");
+        return next();
     }
 }
 ```
@@ -122,7 +173,6 @@ const configRouter: IRouterOptions = {
 }
 
 new SetRouter(configRouter);
-
 ```
 ### Using the roads API
 ```typescript
@@ -136,7 +186,9 @@ About the Roads Api see [in Roads docs](https://github.com/Dashron/roads#index)
 
 ### Complete example with Server
 ```typescript
-import {After, AfterAll, Before, BeforeAll, Delete, Get, HttpError, IRouterOptions, middleware, Post, Put, Response, Road, Endpoint, Server, SetRouter} from "spiel-server";
+import {After, AfterAll, Before, BeforeAll, Delete, Endpoint, Get, HttpError,
+    IBody, IRouterOptions, middleware, Post, Put, Response,
+    Road, Server, SetRouter} from "../src";
 import {users} from "./assets";
 
 const app = new Road();
@@ -153,30 +205,40 @@ const server = new Server(app, (error: any) => {
     }
 });
 
-const info = (method: string, path: string, body: any, headers: Headers, next: Function) => {
-    console.log('A ' + method + ' request was made to ' + JSON.stringify(path));
-    return next();
+const info = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
+    if (path.match(/^\/user/g)) {
+        console.log(`A ${method} request was made to ${JSON.stringify(path)}`);
+        return next();
+    } else {
+        return next();
+    }
 };
 
-const infoAll = (method: string, path: string, body: any, headers: Headers, next: Function) => {
+const infoAll = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
     console.log("The middleware start");
     return next();
 };
 
-const changeOut = (method: string, path: string, body: any, headers: Headers, next: Function) => {
-    console.log("Finish");
-    return next();
+const changeResponse = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
+    if (path.match(/^\/greeting/g)) {
+        console.log("End");
+        return new Response({greet: "Bye"}, 200);
+    } else {
+        return next();
+    }
 };
 
-const finish = (method: string, path: string, body: any, headers: Headers, next: Function) => {
-    console.log("End");
-    return new Response({greet:"Bye"}, 200);
+const finish = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
+    console.log("Finish");
+    return next();
 };
 
 @BeforeAll(infoAll)
 @AfterAll(finish)
 @Endpoint("user")
 class User {
+    private body: IBody;
+
     @Before(info)
     @Get("")
     public getUsers() {
@@ -190,19 +252,19 @@ class User {
     }
 
     @Post("")
-    public addUser(url: any, body: any) {
-        const user = body;
+    public addUser(url: any) {
+        const user = this.body;
         users.push(user);
         return new Response(users, 200);
     }
 
     @Put("#id")
-    public updateUser(url: any, body: any) {
+    public updateUser(url: any) {
         const id = url.args.id;
         const resp = users.map((user) => {
             const value = user;
             if (value.id === id) {
-                value.permission = body.permission;
+                value.permission = this.body.permission;
             }
             return value;
         });
@@ -224,30 +286,30 @@ class User {
 
 @Endpoint("greeting")
 class Greeting {
-    @After(changeOut)
+    @After(changeResponse)
     @Get("")
-    public getGreeting(url: any, body: any, headers: any, next: Function) {
+    public getGreeting(url: any, body: any, headers: any, next: () => {}) {
         console.log("HELLO EVERYBODY");
-        return next()
+        return next();
     }
 }
 
 const endpoints = [new User(), new Greeting()];
 
 const configRouter: IRouterOptions = {
-  road: app,
-  endpoints,
   connectionMode: true,
+  endpoints,
+  road: app,
   verbose: true,
-}
+};
 
 new SetRouter(configRouter);
 
 server.listen(3000, () => {
   console.log("Serve is running in the port 3000");
 });
-
 ```
+
 ### Config your project:
 ```json
 {

@@ -1,27 +1,30 @@
 import { middleware, Road } from "roads";
-import { getPropsObject, IRoute, IRouteMethod } from "../helpers";
+import {getPropsObject, IRoute, IRouteMethod } from "../helpers";
 
 const routes: IRoute = {};
 
 /**
  * Decoration to add endpoint route
  * @param path Path of the enpoint
- * @see <a href="https://github.com/spieljs/spiel-server#create-your-endpoints" target="_blank">Create your enpoints</a>
+ * @see <a href="https://github.com/spieljs/spiel-server#create-your-endpoints" target="_blank">
+ * Create your enpoints</a>
  */
 export function Endpoint(path: string) {
   return function <T extends { new(...args: any[]): {} }>(constructor: T) {
     return class extends constructor {
       public path = (path) ? `/${path}` : `/${constructor.name}`;
+      public body = {};
     };
   };
 }
 
 /**
  * Middleware to excute bafore all the endpoints
- * @param middleware Function which is executed from the middleware
- * @see <a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">Create your middleware</a>
+ * @param middlw Function which is executed from the middleware
+ * @see <a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">
+ * Create your middleware</a>
  */
-export function BeforeAll(middleware: Function) {
+export function BeforeAll(middlw: (...args: any[]) => any) {
   const before = "before";
   return function <T extends { new(...args: any[]): {} }>(constructor: T) {
     return class extends constructor {
@@ -36,7 +39,7 @@ export function BeforeAll(middleware: Function) {
           this.methods[before] = [];
         }
 
-        this.methods[before].unshift(middleware);
+        this.methods[before].unshift(middlw);
       }
     };
   };
@@ -44,10 +47,11 @@ export function BeforeAll(middleware: Function) {
 
 /**
  * Middleware to excute after all the endpoints
- * @param middleware Function which is executed from the middleware
- * @see <a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">Create your middleware</a>
+ * @param middlw Function which is executed from the middleware
+ * @see <a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">
+ * Create your middleware</a>
  */
-export function AfterAll(middleware: Function) {
+export function AfterAll(middlw: (...args: any[]) => any) {
   const after = "after";
   return function <T extends { new(...args: any[]): {} }>(constructor: T) {
     return class extends constructor {
@@ -62,7 +66,7 @@ export function AfterAll(middleware: Function) {
           this.methods[after] = [];
         }
 
-        this.methods[after].push(middleware);
+        this.methods[after].push(middlw);
       }
     };
   };
@@ -71,9 +75,10 @@ export function AfterAll(middleware: Function) {
 /**
  * Middleware to excute bafore the method
  * @param middleware Function which is executed from the middleware
-* @see <a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">Create your middleware</a>
+ * @see <a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">
+ * Create your middleware</a>
  */
-export function Before(middleware: Function) {
+export function Before(middlw: (...args: any[]) => any) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     const before = "before";
     if (!target.methods) {
@@ -84,16 +89,17 @@ export function Before(middleware: Function) {
       target.methods[before] = [];
     }
 
-    target.methods[before].push(middleware);
+    target.methods[before].push(middlw);
   };
 }
 
 /**
  * Middleware to excute after the method
  * @param middleware Function which is executed from the middleware
- * @see <a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">Create your middleware</a>
+ * @see <a href="https://github.com/spieljs/spiel-server#create-your-middlewares" target="_blank">
+ * Create your middleware</a>
  */
-export function After(middleware: Function) {
+export function After(middlw: (...args: any[]) => any) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     const after = "after";
     if (!target.methods) {
@@ -104,7 +110,7 @@ export function After(middleware: Function) {
       target.methods[after] = [];
     }
 
-    target.methods[after].push(middleware);
+    target.methods[after].push(middlw);
   };
 }
 

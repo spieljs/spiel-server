@@ -26,6 +26,8 @@ export class SetRouter {
       ? options.connectionMode
       : true;
 
+    this.road.use(middleware.parseBody);
+
     if (this.verbose) {
       this.infoRequest();
     }
@@ -39,8 +41,8 @@ export class SetRouter {
   }
 
   protected infoRequest() {
-    this.road.use((method: string, request: any, body: any, headers: Headers, next: Function) => {
-      console.log(`${method} ${request.path}`);
+    this.road.use((method: string, request: any, body: any, headers: Headers, next: () => any) => {
+      console.log(`${method} ${request}`);
       return next();
     });
   }
@@ -67,7 +69,7 @@ export class SetRouter {
   }
 
   private getendpoints() {
-    let after: Function[] = [];
+    let after: Array<(...args: any[]) => any> = [];
     this.endpoints.forEach((endpoint) => {
       const props = getPropsObject(endpoint);
       const path = endpoint.path;
@@ -101,14 +103,14 @@ export class SetRouter {
   }
 
   private buildBeforeMiddlewares(before: any[]) {
-    before.forEach((middleware) => {
-      this.road.use(middleware);
+    before.forEach((middlw) => {
+      this.road.use(middlw);
     });
   }
 
   private buildAfterMiddlewares(after: any[]) {
-    after.forEach((middleware) => {
-      this.road.use(middleware);
+    after.forEach((middlw) => {
+      this.road.use(middlw);
     });
   }
 }

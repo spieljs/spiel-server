@@ -2,6 +2,7 @@ import { Road } from "roads";
 
 export type Keys = string;
 export type EndpointsConnect = IEndpoints[];
+export type IBody = any;
 
 export interface IEndpoint {
   [key: string]: any;

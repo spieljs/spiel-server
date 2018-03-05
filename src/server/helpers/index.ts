@@ -1,5 +1,4 @@
 export {
-  EndpointsConnect, IRoute, IEndpoint, IRouteProps,
-  IRouteMethod, IRouterOptions, IEndpoints
-} from "./interfaces";
+  EndpointsConnect, IBody, IRoute, IEndpoint, IRouteProps,
+  IRouteMethod, IRouterOptions, IEndpoints} from "./interfaces";
 export {getPropsObject} from "./getPropsObject";

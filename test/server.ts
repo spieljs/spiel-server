@@ -1,4 +1,6 @@
-import {After, AfterAll, Before, BeforeAll, Delete, Get, HttpError, IRouterOptions, middleware, Post, Put, Response, Road, Endpoint, Server, SetRouter} from "../src";
+import {After, AfterAll, Before, BeforeAll, Delete, Endpoint, Get, HttpError,
+    IBody, IRouterOptions, middleware, Post, Put, Response,
+    Road, Server, SetRouter} from "../src";
 import {users} from "./assets";
 
 const app = new Road();
@@ -15,30 +17,40 @@ const server = new Server(app, (error: any) => {
     }
 });
 
-const info = (method: string, path: string, body: any, headers: Headers, next: Function) => {
-    console.log('A ' + method + ' request was made to ' + JSON.stringify(path));
-    return next();
+const info = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
+    if (path.match(/^\/user/g)) {
+        console.log(`A ${method} request was made to ${JSON.stringify(path)}`);
+        return next();
+    } else {
+        return next();
+    }
 };
 
-const infoAll = (method: string, path: string, body: any, headers: Headers, next: Function) => {
+const infoAll = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
     console.log("The middleware start");
     return next();
 };
 
-const changeOut = (method: string, path: string, body: any, headers: Headers, next: Function) => {
-    console.log("Finish");
-    return next();
+const changeResponse = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
+    if (path.match(/^\/greeting/g)) {
+        console.log("End");
+        return new Response({greet: "Bye"}, 200);
+    } else {
+        return next();
+    }
 };
 
-const finish = (method: string, path: string, body: any, headers: Headers, next: Function) => {
-    console.log("End");
-    return new Response({greet:"Bye"}, 200);
+const finish = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
+    console.log("Finish");
+    return next();
 };
 
 @BeforeAll(infoAll)
 @AfterAll(finish)
 @Endpoint("user")
 class User {
+    private body: IBody;
+
     @Before(info)
     @Get("")
     public getUsers() {
@@ -52,19 +64,19 @@ class User {
     }
 
     @Post("")
-    public addUser(url: any, body: any) {
-        const user = body;
+    public addUser(url: any) {
+        const user = this.body;
         users.push(user);
         return new Response(users, 200);
     }
 
     @Put("#id")
-    public updateUser(url: any, body: any) {
+    public updateUser(url: any) {
         const id = url.args.id;
         const resp = users.map((user) => {
             const value = user;
             if (value.id === id) {
-                value.permission = body.permission;
+                value.permission = this.body.permission;
             }
             return value;
         });
@@ -86,22 +98,22 @@ class User {
 
 @Endpoint("greeting")
 class Greeting {
-    @After(changeOut)
+    @After(changeResponse)
     @Get("")
-    public getGreeting(url: any, body: any, headers: any, next: Function) {
+    public getGreeting(url: any, body: any, headers: any, next: () => {}) {
         console.log("HELLO EVERYBODY");
-        return next()
+        return next();
     }
 }
 
 const endpoints = [new User(), new Greeting()];
 
 const configRouter: IRouterOptions = {
-  road: app,
-  endpoints,
   connectionMode: true,
+  endpoints,
+  road: app,
   verbose: true,
-}
+};
 
 new SetRouter(configRouter);
 

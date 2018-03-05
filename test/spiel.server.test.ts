@@ -1,8 +1,8 @@
-import "./server";
 import * as Code from "code";
 import * as Lab from "lab";
 import * as request from "request";
 import * as rp from "request-promise";
+import "./server";
 
 const lab = Lab.script();
 
@@ -10,7 +10,7 @@ export {lab};
 
 lab.experiment("Server", () => {
 
-    lab.test("Has to change the response", async () => {
+    lab.test("Has to change the response in greeteng endpoint", async () => {
         const response: any = await rp("http://localhost:3000/greeting", {json: true});
         Code.expect(response.greet).to.be.equal("Bye");
     });
@@ -38,7 +38,6 @@ lab.experiment("Server", () => {
         };
         const response: any = await rp(options);
         Code.expect(response).to.have.length(5);
-        console.log(response[4]);
         Code.expect(response[4].name).to.be.equal("Pepe");
     });
 
@@ -66,10 +65,10 @@ lab.experiment("Server", () => {
         Code.expect(response).to.have.length(4);
     });
 
-    lab.test("has to get all classe and method", async() => {
+    lab.test("has to get all classes and methods", async () => {
         const response: any = await rp("http://localhost:3000", {json: true});
         Code.expect(response).to.have.length(2);
         Code.expect(response[0].props).to.have.length(5);
         Code.expect(response[1].props).to.have.length(1);
-    })
+    });
 });
