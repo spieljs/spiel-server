@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "lab -v --sourcemaps --transform node_modules/lab-transform-typescript test/spiel.server.test.ts",
-    "lint": "tslint src/**/*.ts",
+    "lint": "./node_modules/tslint/bin/tslint 'src/**/*.ts'",
     "docs": "gulp typedoc"
   },
   "repository": {
@@ -38,6 +38,7 @@
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "ts-loader": "^3.5.0",
+    "tslint": "^5.9.1",
     "typedoc": "^0.10.0",
     "typedocs": "^0.6.3",
     "typescript": "2.7.2"
