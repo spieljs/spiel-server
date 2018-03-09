@@ -1,8 +1,9 @@
 {
   "name": "spiel-server",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Middleware framework to make easy to write backend applications",
-  "main": "index.js",
+  "main": "lib/src/index.js",
+  "types": "lib/src/index.d.ts",
   "scripts": {
     "test": "lab -v --sourcemaps --transform node_modules/lab-transform-typescript test/spiel.server.test.ts",
     "lint": "./node_modules/tslint/bin/tslint 'src/**/*.ts'",
