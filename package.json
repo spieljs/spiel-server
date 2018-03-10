@@ -1,6 +1,6 @@
 {
   "name": "spiel-server",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Middleware framework to make easy to write backend applications",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
@@ -33,9 +33,9 @@
     "code": "^5.2.0",
     "gulp": "^3.9.1",
     "gulp-typedoc": "^2.2.0",
-    "lab": "^15.2.2",
+    "lab": "^15.3.1",
     "lab-transform-typescript": "^3.0.1",
-    "nodemon": "^1.14.12",
+    "nodemon": "^1.17.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "ts-loader": "^3.5.0",
@@ -45,7 +45,7 @@
     "typescript": "2.7.2"
   },
   "dependencies": {
-    "@types/roads": "^5.0.0",
+    "@types/roads": "^5.0.1",
     "@types/roads-server": "^1.0.0",
     "roads": "^5.0.0-alpha.15",
     "roads-server": "^1.0.0-alpha.1"
