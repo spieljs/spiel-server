@@ -1,4 +1,4 @@
-import { Road } from "roads";
+import { Cors, Road } from "roads";
 
 export type Keys = string;
 export type EndpointsConnect = IEndpoints[];
@@ -38,12 +38,18 @@ export interface IRouterOptions {
    */
   connectionMode?: boolean;
   /**
+   * It allow Cross-origin
+   * @see <a href="https://github.com/Dashron/roads" target="https://github.com/Dashron/roads#corsobject-options">
+   * cors</a>
+   */
+  cors?: Cors;
+  /**
    * All the endpoints for this router
    */
   endpoints: any[];
   /**
    * Object to build the router
-   * @see <a href="https://github.com/Dashron/roads">roads</a>
+   * @see <a href="https://github.com/Dashron/roads" target="_blank">roads</a>
    */
   road: Road;
   /**

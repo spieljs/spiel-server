@@ -220,14 +220,18 @@
     }
 }
 
-<span class="hljs-keyword">const</span> endpoints = [<span class="hljs-keyword">new</span> Greeting()];
+<span class="hljs-keyword">const</span> cors = {
+    validOrigins: [<span class="hljs-string">'http://localhost:8080'</span>],
+    responseHeaders: [<span class="hljs-string">'content-type'</span>]
+};
 
 <span class="hljs-keyword">const</span> configRouter: IRouterOptions = {
-  road: app,
-  endpoints,
   connectionMode: <span class="hljs-literal">true</span>,
+  cors,
+  endpoints,
+  road: app,
   verbose: <span class="hljs-literal">true</span>,
-}
+};
 
 <span class="hljs-keyword">new</span> SetRouter(configRouter);
 </code></pre>
@@ -236,7 +240,10 @@
 
 <span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> Road();
 
-app.use(middleware.cors([<span class="hljs-string">'http://localhost:8080'</span>], [<span class="hljs-string">'authorization'</span>]));
+app.use(middleware.cors({
+    validOrigins: [<span class="hljs-string">'http://localhost:8080'</span>],
+    responseHeaders: [<span class="hljs-string">'content-type'</span>]
+}));
 </code></pre>
 				<p>About the Roads Api see <a href="https://github.com/Dashron/roads#index">in Roads docs</a></p>
 				<h3 id="complete-example-with-server">Complete example with Server</h3>
@@ -350,8 +357,14 @@ app.use(middleware.cors([<span class="hljs-string">'http://localhost:8080'</span
 
 <span class="hljs-keyword">const</span> endpoints = [<span class="hljs-keyword">new</span> User(), <span class="hljs-keyword">new</span> Greeting()];
 
+<span class="hljs-keyword">const</span> cors = {
+    validOrigins: [<span class="hljs-string">'http://localhost:8080'</span>],
+    responseHeaders: [<span class="hljs-string">'content-type'</span>]
+};
+
 <span class="hljs-keyword">const</span> configRouter: IRouterOptions = {
   connectionMode: <span class="hljs-literal">true</span>,
+  cors,
   endpoints,
   road: app,
   verbose: <span class="hljs-literal">true</span>,

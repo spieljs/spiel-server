@@ -163,14 +163,18 @@ class Greeting {
     }
 }
 
-const endpoints = [new Greeting()];
+const cors = {
+    validOrigins: ['http://localhost:8080'],
+    responseHeaders: ['content-type']
+};
 
 const configRouter: IRouterOptions = {
-  road: app,
-  endpoints,
   connectionMode: true,
+  cors,
+  endpoints,
+  road: app,
   verbose: true,
-}
+};
 
 new SetRouter(configRouter);
 ```
@@ -180,7 +184,10 @@ import {Road, middleware} from "spiel-server";
 
 const app = new Road();
 
-app.use(middleware.cors(['http://localhost:8080'], ['authorization']));
+app.use(middleware.cors({
+    validOrigins: ['http://localhost:8080'],
+    responseHeaders: ['content-type']
+}));
 ```
 About the Roads Api see [in Roads docs](https://github.com/Dashron/roads#index)
 
@@ -296,8 +303,14 @@ class Greeting {
 
 const endpoints = [new User(), new Greeting()];
 
+const cors = {
+    validOrigins: ['http://localhost:8080'],
+    responseHeaders: ['content-type']
+};
+
 const configRouter: IRouterOptions = {
   connectionMode: true,
+  cors,
   endpoints,
   road: app,
   verbose: true,

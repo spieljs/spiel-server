@@ -28,6 +28,10 @@ export class SetRouter {
 
     this.road.use(middleware.parseBody);
 
+    if (options.cors) {
+      this.road.use(middleware.cors(options.cors));
+    }
+
     if (this.verbose) {
       this.infoRequest();
     }
