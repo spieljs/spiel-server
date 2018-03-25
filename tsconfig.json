@@ -13,5 +13,12 @@
 
 	"include": [
 		"src/index.ts"
+	],
+
+	"files": [
+		"src/**/*.ts",
+		"test/server.ts",
+		"assets.ts",
+		"spiel.server.test.ts"
 	]
 }

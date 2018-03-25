@@ -1,5 +1,5 @@
 import {After, AfterAll, Before, BeforeAll, Delete, Endpoint, Get, HttpError,
-    IBody, IRouterOptions, middleware, Post, Put, Response,
+    IRouterOptions, IUrl, middleware, Post, Put, Response,
     Road, Server, SetRouter} from "../src";
 import {users} from "./assets";
 
@@ -17,7 +17,7 @@ const server = new Server(app, (error: any) => {
     }
 });
 
-const info = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
+const info = (method: string, path: string, body: any, headers: Headers, next: () => any) => {
     if (path.match(/^\/user/g)) {
         console.log(`A ${method} request was made to ${JSON.stringify(path)}`);
         return next();
@@ -26,12 +26,12 @@ const info = (method: string, path: string, body: IBody, headers: Headers, next:
     }
 };
 
-const infoAll = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
+const infoAll = (method: string, path: string, body: any, headers: Headers, next: () => any) => {
     console.log("The middleware start");
     return next();
 };
 
-const changeResponse = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
+const changeResponse = (method: string, path: string, body: any, headers: Headers, next: () => any) => {
     if (path.match(/^\/greeting/g)) {
         console.log("End");
         return new Response({greet: "Bye"}, 200);
@@ -40,7 +40,7 @@ const changeResponse = (method: string, path: string, body: IBody, headers: Head
     }
 };
 
-const finish = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
+const finish = (method: string, path: string, body: any, headers: Headers, next: () => any) => {
     console.log("Finish");
     return next();
 };
@@ -49,7 +49,7 @@ const finish = (method: string, path: string, body: IBody, headers: Headers, nex
 @AfterAll(finish)
 @Endpoint("user")
 class User {
-    private body: IBody;
+    private body: any;
 
     @Before(info)
     @Get("")
@@ -57,21 +57,22 @@ class User {
         return new Response(users, 200);
     }
     @Get("#id")
-    public getUser(url: any) {
+    public getUser(url: IUrl) {
+        console.log(url);
         const id = url.args.id;
         const user: any = users.find((elment) => elment.id === id);
         return new Response(user, 200);
     }
 
     @Post("")
-    public addUser(url: any) {
+    public addUser(url: IUrl) {
         const user = this.body;
         users.push(user);
         return new Response(users, 200);
     }
 
     @Put("#id")
-    public updateUser(url: any) {
+    public updateUser(url: IUrl) {
         const id = url.args.id;
         const resp = users.map((user) => {
             const value = user;
@@ -88,7 +89,7 @@ class User {
     }
 
     @Delete("#id")
-    public deleteUser(url: any) {
+    public deleteUser(url: IUrl) {
         const id = url.args.id;
         const index = users.findIndex((user: any) => user.id === id);
         users.splice(index, 1);

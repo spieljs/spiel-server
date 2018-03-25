@@ -2,10 +2,25 @@ import { Cors, Road } from "roads";
 
 export type Keys = string;
 export type EndpointsConnect = IEndpoints[];
-export type IBody = any;
+export type IEndpoint = IObject;
 
-export interface IEndpoint {
+export interface IObject {
   [key: string]: any;
+}
+
+export interface IUrl {
+  args: IObject;
+  hash: string;
+  host: string | null;
+  hostname: string | null;
+  href: string;
+  path: string;
+  pathName: string;
+  port: string | null;
+  protocol: string | null;
+  query: IObject;
+  search: string | null;
+  slashes: string | null;
 }
 
 export interface IRouteMethod {
