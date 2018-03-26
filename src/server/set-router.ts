@@ -1,5 +1,6 @@
 import { middleware, Response, Road } from "roads";
-import { EndpointsConnect, getPropsObject, IEndpoint, IEndpoints, IRouteMethod, IRouterOptions } from "./helpers";
+import { EndpointsConnect, getPropsObject, IEndpoint, IEndpoints,
+  IMiddleware, IMiddlewareAll, IRouteMethod, IRouterOptions, Middleware} from "./helpers";
 
 /**
  * Set the router with the endpoints and middlewares
@@ -60,7 +61,7 @@ export class SetRouter {
         return {
           method: endpointMethods[method].method,
           name: method,
-          path: `${path}${(endpointMethods[method].path) ? `/${endpointMethods[method].path}` : ""}`,
+          path: endpointMethods[method].path,
         };
       }),
     };
@@ -73,20 +74,19 @@ export class SetRouter {
   }
 
   private getendpoints() {
-    let after: Array<(...args: any[]) => any> = [];
+    let after: any = [];
     this.endpoints.forEach((endpoint) => {
       const props = getPropsObject(endpoint);
       const path = endpoint.path;
       const methods = endpoint.methods;
+      console.log(methods);
 
       if (methods.before && methods.before.length) {
-        this.buildBeforeMiddlewares(methods.before);
+        this.buildMiddlewares(methods.before);
       }
 
       props.forEach((prop: string) => {
-        this.router.addRoute(methods[prop].method, `${path}${(methods[prop].path)
-          ? `/${methods[prop].path}`
-          : ""}`, endpoint[prop]);
+        this.router.addRoute(methods[prop].method, methods[prop].path, endpoint[prop]);
       });
 
       if (methods.after && methods.after.length) {
@@ -97,8 +97,9 @@ export class SetRouter {
     });
 
     this.router.applyMiddleware(this.road);
+
     if (after && after.length) {
-      this.buildAfterMiddlewares(after);
+      this.buildMiddlewares(after);
     }
 
     if (this.verbose) {
@@ -106,15 +107,14 @@ export class SetRouter {
     }
   }
 
-  private buildBeforeMiddlewares(before: any[]) {
-    before.forEach((middlw) => {
-      this.road.use(middlw);
-    });
-  }
-
-  private buildAfterMiddlewares(after: any[]) {
-    after.forEach((middlw) => {
-      this.road.use(middlw);
+  private buildMiddlewares(middlewares: IMiddleware[]) {
+    middlewares.forEach( (middlwsMethod) => {
+      this.road.use((method: string, path: string, body: any, headers: Headers, next: () => any) => {
+        if (path.includes(middlwsMethod.path)) {
+          return middlwsMethod.middleware(method, path, body, headers, next);
+        }
+        return next();
+      });
     });
   }
 }

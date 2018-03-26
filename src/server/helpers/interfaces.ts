@@ -3,6 +3,7 @@ import { Cors, Road } from "roads";
 export type Keys = string;
 export type EndpointsConnect = IEndpoints[];
 export type IEndpoint = IObject;
+export type Middleware = (method: string, path: string, body: any, headers: Headers, next: () => any) => any;
 
 export interface IObject {
   [key: string]: any;
@@ -37,6 +38,15 @@ export interface IRouteProps {
 export interface IEndpoints {
   name: string;
   props: IRouteProps[];
+}
+
+export interface IMiddlewareAll {
+  path: string;
+  middleware: Middleware;
+}
+
+export interface IMiddleware extends IMiddlewareAll {
+  method: string;
 }
 
 export interface IRoute {

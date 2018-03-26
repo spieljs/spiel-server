@@ -11,17 +11,17 @@ export {lab};
 lab.experiment("Server", () => {
 
     lab.test("Has to change the response in greeteng endpoint", async () => {
-        const response: any = await rp("http://localhost:3000/greeting", {json: true});
+        const response: any = await rp("http://localhost:3000/greeting/getgreeting", {json: true});
         Code.expect(response.greet).to.be.equal("Bye");
     });
 
     lab.test("Has to return all the users", async () => {
-        const response: any = await rp("http://localhost:3000/user", {json: true});
+        const response: any = await rp("http://localhost:3000/user/getusers", {json: true});
         Code.expect(response).to.have.length(4);
     });
 
     lab.test("Has to get the name 'Lola'", async () => {
-        const response: any = await rp("http://localhost:3000/user/4", {json: true});
+        const response: any = await rp("http://localhost:3000/user/getuser/4", {json: true});
         Code.expect(response.name).to.be.equal("Lola");
     });
 
@@ -34,7 +34,7 @@ lab.experiment("Server", () => {
             },
             json: true,
             method: "POST",
-            uri: "http://localhost:3000/user",
+            uri: "http://localhost:3000/user/adduser",
         };
         const response: any = await rp(options);
         Code.expect(response).to.have.length(5);
@@ -48,7 +48,7 @@ lab.experiment("Server", () => {
             },
             json: true,
             method: "PUT",
-            uri: "http://localhost:3000/user/5",
+            uri: "http://localhost:3000/user/updateuser/5",
         };
         const response: any = await rp(options);
         const isUpdate = response.some((user: any) => user.name === "Pepe" && user.permission === "admin");
@@ -59,7 +59,7 @@ lab.experiment("Server", () => {
         const options = {
             json: true,
             method: "DELETE",
-            uri: "http://localhost:3000/user/5",
+            uri: "http://localhost:3000/user/deleteuser/5",
         };
         const response: any = await rp(options);
         Code.expect(response).to.have.length(4);

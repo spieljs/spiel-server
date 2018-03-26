@@ -18,12 +18,8 @@ const server = new Server(app, (error: any) => {
 });
 
 const info = (method: string, path: string, body: any, headers: Headers, next: () => any) => {
-    if (path.match(/^\/user/g)) {
-        console.log(`A ${method} request was made to ${JSON.stringify(path)}`);
-        return next();
-    } else {
-        return next();
-    }
+    console.log(`A ${method} request was made to ${JSON.stringify(path)}`);
+    return next();
 };
 
 const infoAll = (method: string, path: string, body: any, headers: Headers, next: () => any) => {
@@ -32,22 +28,17 @@ const infoAll = (method: string, path: string, body: any, headers: Headers, next
 };
 
 const changeResponse = (method: string, path: string, body: any, headers: Headers, next: () => any) => {
-    if (path.match(/^\/greeting/g)) {
-        console.log("End");
-        return new Response({greet: "Bye"}, 200);
-    } else {
-        return next();
-    }
+    console.log("End");
+    return next();
 };
 
 const finish = (method: string, path: string, body: any, headers: Headers, next: () => any) => {
     console.log("Finish");
-    return next();
+    return new Response({greet: "Bye"}, 200);
 };
 
 @BeforeAll(infoAll)
-@AfterAll(finish)
-@Endpoint("user")
+@Endpoint()
 class User {
     private body: any;
 
@@ -58,7 +49,6 @@ class User {
     }
     @Get("#id")
     public getUser(url: IUrl) {
-        console.log(url);
         const id = url.args.id;
         const user: any = users.find((elment) => elment.id === id);
         return new Response(user, 200);
@@ -97,7 +87,8 @@ class User {
     }
 }
 
-@Endpoint("greeting")
+@Endpoint()
+@AfterAll(finish)
 class Greeting {
     @After(changeResponse)
     @Get("")
