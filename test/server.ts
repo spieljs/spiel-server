@@ -92,13 +92,21 @@ class User {
 class Greeting {
     @After(changeResponse)
     @Get("")
-    public getGreeting(url: any, body: any, headers: any, next: () => {}) {
+    public getGreeting(url: IUrl, body: any, headers: Headers, next: () => {}) {
         console.log("HELLO EVERYBODY");
         return next();
     }
 }
 
-const endpoints = [new User(), new Greeting()];
+@Endpoint()
+class OtherClass {
+    @Get("$name")
+    public getName(url: IUrl, body: any, headers: Headers, next: () => {}) {
+        return new Response(url.args, 200);
+    }
+}
+
+const endpoints = [new User(), [new Greeting(), new OtherClass()]];
 
 const configRouter: IRouterOptions = {
   connectionMode: true,

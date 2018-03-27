@@ -7,7 +7,6 @@ import { EndpointsConnect, getPropsObject, IEndpoint, IEndpoints,
  * @see <a href="https://github.com/spieljs/spiel-server#setting-the-router" target="_blank">Setting router</a>
  */
 export class SetRouter {
-  protected endpoints: IEndpoint[];
   protected router: middleware.SimpleRouter;
   protected RouterConnect: EndpointsConnect = [];
   protected road: Road;
@@ -19,7 +18,7 @@ export class SetRouter {
    */
   constructor(options: IRouterOptions) {
     this.road = options.road;
-    this.endpoints = options.endpoints;
+    const endpoints: IEndpoint[] = options.endpoints;
     this.verbose = (options.verbose)
       ? options.verbose
       : false;
@@ -38,7 +37,11 @@ export class SetRouter {
     }
 
     this.router = new middleware.SimpleRouter();
-    this.getendpoints();
+    this.getEndpoints(endpoints);
+
+    if (this.verbose) {
+      console.log(this.router);
+    }
 
     if (this.connectionMode) {
       this.setConnection();
@@ -73,27 +76,31 @@ export class SetRouter {
     });
   }
 
-  private getendpoints() {
+  private getEndpoints(endpoints: IEndpoint[]) {
     let after: any = [];
-    this.endpoints.forEach((endpoint) => {
-      const props = getPropsObject(endpoint);
-      const path = endpoint.path;
-      const methods = endpoint.methods;
-      console.log(methods);
+    endpoints.forEach((endpoint: any) => {
+      if (endpoint.length) {
+        console.log(endpoint);
+        this.getEndpoints(endpoint);
+      } else {
+        const props = getPropsObject(endpoint);
+        const path = endpoint.path;
+        const methods = endpoint.methods;
 
-      if (methods.before && methods.before.length) {
-        this.buildMiddlewares(methods.before);
+        if (methods.before && methods.before.length) {
+          this.buildMiddlewares(methods.before);
+        }
+
+        props.forEach((prop: string) => {
+          this.router.addRoute(methods[prop].method, methods[prop].path, endpoint[prop]);
+        });
+
+        if (methods.after && methods.after.length) {
+          after = after.concat(methods.after);
+        }
+
+        this.RouterConnect.push(this.setRouterConnect(methods, endpoint.constructor.name, path));
       }
-
-      props.forEach((prop: string) => {
-        this.router.addRoute(methods[prop].method, methods[prop].path, endpoint[prop]);
-      });
-
-      if (methods.after && methods.after.length) {
-        after = after.concat(methods.after);
-      }
-
-      this.RouterConnect.push(this.setRouterConnect(methods, endpoint.constructor.name, path));
     });
 
     this.router.applyMiddleware(this.road);
@@ -101,16 +108,13 @@ export class SetRouter {
     if (after && after.length) {
       this.buildMiddlewares(after);
     }
-
-    if (this.verbose) {
-      console.log(this.router);
-    }
   }
 
   private buildMiddlewares(middlewares: IMiddleware[]) {
     middlewares.forEach( (middlwsMethod) => {
       this.road.use((method: string, path: string, body: any, headers: Headers, next: () => any) => {
-        if (path.includes(middlwsMethod.path)) {
+        const regex = new RegExp(`^${middlwsMethod.path}`);
+        if (path.match(regex)) {
           return middlwsMethod.middleware(method, path, body, headers, next);
         }
         return next();

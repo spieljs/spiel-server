@@ -65,10 +65,16 @@ lab.experiment("Server", () => {
         Code.expect(response).to.have.length(4);
     });
 
+    lab.test("Has to return the name param", async () => {
+        const response = await rp("http://localhost:3000/otherclass/getname/Ramona", {json: true});
+        Code.expect(response.name).to.have.equal("Ramona");
+    });
+
     lab.test("has to get all classes and methods", async () => {
         const response: any = await rp("http://localhost:3000", {json: true});
-        Code.expect(response).to.have.length(2);
+        Code.expect(response).to.have.length(3);
         Code.expect(response[0].props).to.have.length(5);
         Code.expect(response[1].props).to.have.length(1);
+        Code.expect(response[2].props).to.have.length(1);
     });
 });
