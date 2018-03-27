@@ -132,16 +132,18 @@ export function After(middlw: (...args: any[]) => any) {
  * Endpoint method delete
  * @param path Path of the delete method
  */
-export function Delete(path: string) {
+export function Delete(path: string, permission?: {name: string, secret: string}) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     if (!target.methods) {
       target.methods = [];
     }
 
     target.methods[key] = {
+      allowed: true,
       method: "DELETE",
       path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
         `/${path}` : ""}`,
+      permission,
     };
   };
 }
@@ -150,16 +152,18 @@ export function Delete(path: string) {
  * Endpoint method get
  * @param path Path of the get method
  */
-export function Get(path: string) {
+export function Get(path: string, permission?: {name: string, secret: string}) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     if (!target.methods) {
       target.methods = [];
     }
 
     target.methods[key] = {
+      allowed: true,
       method: "GET",
       path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
         `/${path}` : ""}`,
+      permission,
     };
   };
 }
@@ -168,16 +172,18 @@ export function Get(path: string) {
  * Endpoint method Head
  * @param path Path of the Head method
  */
-export function Head(path: string) {
+export function Head(path: string, permission?: {name: string, secret: string} ) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     if (!target.methods) {
       target.methods = [];
     }
 
     target.methods[key] = {
+      allowed: true,
       method: "HEAD",
       path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
         `/${path}` : ""}`,
+      permission,
     };
   };
 }
@@ -186,16 +192,18 @@ export function Head(path: string) {
  * Endpoint method Options
  * @param path Path of the Options method
  */
-export function Options(path: string) {
+export function Options(path: string, permission?: {name: string, secret: string} ) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     if (!target.methods) {
       target.methods = [];
     }
 
     target.methods[key] = {
+      allowed: true,
       method: "OPTIONS",
       path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
         `/${path}` : ""}`,
+      permission,
     };
   };
 }
@@ -204,16 +212,18 @@ export function Options(path: string) {
  * Endpoint method Patch
  * @param path Path of the Patch method
  */
-export function Patch(path: string) {
+export function Patch(path: string, permission?: {name: string, secret: string} ) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     if (!target.methods) {
       target.methods = [];
     }
 
     target.methods[key] = {
+      allowed: true,
       method: "PATCH",
       path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
         `/${path}` : ""}`,
+      permission,
     };
   };
 }
@@ -222,16 +232,18 @@ export function Patch(path: string) {
  * Endpoint method Post
  * @param path Path of the Post method
  */
-export function Post(path: string) {
+export function Post(path: string, permission?: {name: string, secret: string} ) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     if (!target.methods) {
       target.methods = [];
     }
 
     target.methods[key] = {
+      allowed: true,
       method: "POST",
       path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
         `/${path}` : ""}`,
+      permission,
     };
   };
 }
@@ -240,16 +252,18 @@ export function Post(path: string) {
  * Endpoint method Put
  * @param path Path of the Put method
  */
-export function Put(path: string) {
+export function Put(path: string, permission?: {name: string, secret: string} ) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     if (!target.methods) {
       target.methods = [];
     }
 
     target.methods[key] = {
+      allowed: true,
       method: "PUT",
       path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
         `/${path}` : ""}`,
+      permission,
     };
   };
 }

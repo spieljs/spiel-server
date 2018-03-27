@@ -45,8 +45,10 @@
     "typescript": "2.7.2"
   },
   "dependencies": {
+    "@types/jwt-simple": "^0.5.33",
     "@types/roads": "^5.0.1",
     "@types/roads-server": "^1.0.0",
+    "jwt-simple": "^0.5.1",
     "roads": "^5.0.0-alpha.15",
     "roads-server": "^1.0.0-alpha.1"
   }

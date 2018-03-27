@@ -1,3 +1,4 @@
+import * as jwt from "jwt-simple";
 import { middleware, Response, Road } from "roads";
 import { EndpointsConnect, getPropsObject, IEndpoint, IEndpoints,
   IMiddleware, IMiddlewareAll, IRouteMethod, IRouterOptions, Middleware} from "./helpers";
@@ -11,6 +12,7 @@ export class SetRouter {
   protected RouterConnect: EndpointsConnect = [];
   protected road: Road;
   protected connectionMode: boolean;
+  protected connectionPath: string;
   protected verbose: boolean;
 
   /**
@@ -25,6 +27,9 @@ export class SetRouter {
     this.connectionMode = (options.connectionMode)
       ? options.connectionMode
       : true;
+    this.connectionPath = (options.connectionPath)
+      ? options.connectionPath
+      : "/";
 
     this.road.use(middleware.parseBody);
 
@@ -37,6 +42,7 @@ export class SetRouter {
     }
 
     this.router = new middleware.SimpleRouter();
+    this.setAuthConnect(endpoints);
     this.getEndpoints(endpoints);
 
     if (this.verbose) {
@@ -59,7 +65,8 @@ export class SetRouter {
     return {
       name: routeName,
       props: Object.keys(endpointMethods)
-        .filter((method: string) => method !== "before" && method !== "after")
+        .filter((method: string) => method !== "before" && method !== "after"
+          && endpointMethods[method].allowed)
         .map((method) => {
         return {
           method: endpointMethods[method].method,
@@ -71,8 +78,38 @@ export class SetRouter {
   }
 
   protected setConnection() {
-    this.router.addRoute("GET", "/", () => {
+    this.router.addRoute("GET", this.connectionPath, () => {
       return new Response(this.RouterConnect, 200);
+    });
+  }
+
+  private setAuthConnect(endpoints: IEndpoint[]) {
+    this.road.use((method: string, path: string, body: any, headers: any, next: () => any) => {
+      if (path === this.connectionPath && headers.authorization) {
+        const token = headers.authorization.split(" ")[1];
+        this.checkAuthConnect(endpoints, token);
+      }
+
+      return next();
+    });
+  }
+
+  private checkAuthConnect(endpoints: IEndpoint[], token: string) {
+    endpoints.forEach((endpoint: any) => {
+      if (endpoints.length) {
+        this.getEndpoints(endpoint);
+      } else {
+        const props = getPropsObject(endpoint);
+        const methods = endpoint.methods;
+
+        props.forEach((prop: string) => {
+          if (methods[prop].permission ) {
+            const permission = methods[prop].permission;
+            const descode = jwt.decode(token, permission.secret);
+            methods[prop].allowed = descode.includes(permission.name);
+          }
+        });
+      }
     });
   }
 
@@ -80,7 +117,6 @@ export class SetRouter {
     let after: any = [];
     endpoints.forEach((endpoint: any) => {
       if (endpoint.length) {
-        console.log(endpoint);
         this.getEndpoints(endpoint);
       } else {
         const props = getPropsObject(endpoint);

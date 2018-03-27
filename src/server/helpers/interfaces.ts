@@ -63,6 +63,11 @@ export interface IRouterOptions {
    */
   connectionMode?: boolean;
   /**
+   * Path which will return all the routers
+   * @default "/"
+   */
+  connectionPath?: string;
+  /**
    * It allow Cross-origin
    * @see <a href="https://github.com/Dashron/roads" target="https://github.com/Dashron/roads#corsobject-options">
    * cors</a>
