@@ -58,6 +58,11 @@ export interface IRoute {
  */
 export interface IRouterOptions {
   /**
+   * Security layer which respond with the endpoints according with the permissions
+   * @default false
+   */
+  authConnection?: boolean;
+  /**
    * create a root endpoint which return all the rest endpoint with its methods
    * @default true
    */

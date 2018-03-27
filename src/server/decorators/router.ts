@@ -139,7 +139,6 @@ export function Delete(path: string, permission?: {name: string, secret: string}
     }
 
     target.methods[key] = {
-      allowed: true,
       method: "DELETE",
       path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
         `/${path}` : ""}`,
@@ -159,7 +158,6 @@ export function Get(path: string, permission?: {name: string, secret: string}) {
     }
 
     target.methods[key] = {
-      allowed: true,
       method: "GET",
       path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
         `/${path}` : ""}`,
@@ -179,7 +177,6 @@ export function Head(path: string, permission?: {name: string, secret: string} )
     }
 
     target.methods[key] = {
-      allowed: true,
       method: "HEAD",
       path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
         `/${path}` : ""}`,
@@ -199,7 +196,6 @@ export function Options(path: string, permission?: {name: string, secret: string
     }
 
     target.methods[key] = {
-      allowed: true,
       method: "OPTIONS",
       path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
         `/${path}` : ""}`,
@@ -219,7 +215,6 @@ export function Patch(path: string, permission?: {name: string, secret: string} 
     }
 
     target.methods[key] = {
-      allowed: true,
       method: "PATCH",
       path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
         `/${path}` : ""}`,
@@ -239,7 +234,6 @@ export function Post(path: string, permission?: {name: string, secret: string} )
     }
 
     target.methods[key] = {
-      allowed: true,
       method: "POST",
       path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
         `/${path}` : ""}`,
@@ -259,7 +253,6 @@ export function Put(path: string, permission?: {name: string, secret: string} ) 
     }
 
     target.methods[key] = {
-      allowed: true,
       method: "PUT",
       path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
         `/${path}` : ""}`,

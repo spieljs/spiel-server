@@ -8,6 +8,7 @@ import { EndpointsConnect, getPropsObject, IEndpoint, IEndpoints,
  * @see <a href="https://github.com/spieljs/spiel-server#setting-the-router" target="_blank">Setting router</a>
  */
 export class SetRouter {
+  protected authConnection: boolean;
   protected router: middleware.SimpleRouter;
   protected RouterConnect: EndpointsConnect = [];
   protected road: Road;
@@ -21,6 +22,9 @@ export class SetRouter {
   constructor(options: IRouterOptions) {
     this.road = options.road;
     const endpoints: IEndpoint[] = options.endpoints;
+    this.authConnection = (options.authConnection)
+      ? options.authConnection
+      : false;
     this.verbose = (options.verbose)
       ? options.verbose
       : false;
@@ -66,7 +70,7 @@ export class SetRouter {
       name: routeName,
       props: Object.keys(endpointMethods)
         .filter((method: string) => method !== "before" && method !== "after"
-          && endpointMethods[method].allowed)
+          && (!this.authConnection || endpointMethods[method].allowed))
         .map((method) => {
         return {
           method: endpointMethods[method].method,
@@ -85,7 +89,7 @@ export class SetRouter {
 
   private setAuthConnect(endpoints: IEndpoint[]) {
     this.road.use((method: string, path: string, body: any, headers: any, next: () => any) => {
-      if (path === this.connectionPath && headers.authorization) {
+      if (path === this.connectionPath && headers.authConnection) {
         const token = headers.authorization.split(" ")[1];
         this.checkAuthConnect(endpoints, token);
       }
