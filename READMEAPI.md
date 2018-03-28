@@ -38,7 +38,8 @@ class User {
     private body: any;
 
     @Post("")
-    public addUser(url: IUrl) {
+    public addUser(url: IUrl, body) {
+        console.log(body);
         const user = this.body;
         users.push(user);
         return new Response(users, 200);
