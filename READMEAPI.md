@@ -181,7 +181,7 @@ app.use(middleware.cors({
 About the Roads Api see [in Roads docs](https://github.com/Dashron/roads#index)
 
 ### AuthConnection
-If you use spiel-connect you can send the head `authconnection` with the token of permission array
+If you use Spiel Connect you can send the head `authconnection` with the token of permission array
 as value and Spiel Server only will response with the method that match with the permission sent.
 Example:
 
