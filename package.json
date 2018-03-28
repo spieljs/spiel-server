@@ -1,6 +1,6 @@
 {
   "name": "spiel-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Middleware framework to make easy to write backend applications",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
