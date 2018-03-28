@@ -8,9 +8,10 @@ import { EndpointsConnect, getPropsObject, IEndpoint, IEndpoints,
  * @see <a href="https://github.com/spieljs/spiel-server#setting-the-router" target="_blank">Setting router</a>
  */
 export class SetRouter {
+  protected endpoints: IEndpoint[];
   protected authConnection: boolean;
   protected router: middleware.SimpleRouter;
-  protected RouterConnect: EndpointsConnect = [];
+  protected routerConnect: EndpointsConnect = [];
   protected road: Road;
   protected connectionMode: boolean;
   protected connectionPath: string;
@@ -21,7 +22,7 @@ export class SetRouter {
    */
   constructor(options: IRouterOptions) {
     this.road = options.road;
-    const endpoints: IEndpoint[] = options.endpoints;
+    this.endpoints = options.endpoints;
     this.authConnection = (options.authConnection)
       ? options.authConnection
       : false;
@@ -46,15 +47,17 @@ export class SetRouter {
     }
 
     this.router = new middleware.SimpleRouter();
-    this.setAuthConnect(endpoints);
-    this.getEndpoints(endpoints);
+
+    this.getEndpoints(this.endpoints);
+
+    if (this.connectionMode && this.authConnection) {
+      this.setAuthConnect();
+    } else if (this.connectionMode && !this.authConnection) {
+      this.setConnection();
+    }
 
     if (this.verbose) {
       console.log(this.router);
-    }
-
-    if (this.connectionMode) {
-      this.setConnection();
     }
   }
 
@@ -83,36 +86,52 @@ export class SetRouter {
 
   protected setConnection() {
     this.router.addRoute("GET", this.connectionPath, () => {
-      return new Response(this.RouterConnect, 200);
+      return new Response(this.routerConnect, 200);
     });
   }
 
-  private setAuthConnect(endpoints: IEndpoint[]) {
+  private setAuthConnect() {
     this.road.use((method: string, path: string, body: any, headers: any, next: () => any) => {
-      if (path === this.connectionPath && headers.authConnection) {
-        const token = headers.authorization.split(" ")[1];
-        this.checkAuthConnect(endpoints, token);
+      if (path === this.connectionPath && headers.authconnection) {
+        const token = headers.authconnection;
+        this.routerConnect = [];
+        this.checkAuthConnect(token, this.endpoints);
+        return new Response(this.routerConnect, 200);
+      } else if (path === this.connectionPath && !headers.authconnection) {
+        const message = "Currently you are using authConnect but you missend request the header " +
+          "authconnection";
+        return new Response(message, 500);
       }
 
       return next();
     });
   }
 
-  private checkAuthConnect(endpoints: IEndpoint[], token: string) {
+  private checkAuthConnect(token: string, endpoints: IEndpoint[]) {
     endpoints.forEach((endpoint: any) => {
-      if (endpoints.length) {
-        this.getEndpoints(endpoint);
+      if (endpoint.length) {
+        this.checkAuthConnect(token, endpoint);
       } else {
         const props = getPropsObject(endpoint);
+        const path = endpoint.path;
         const methods = endpoint.methods;
 
+        if (methods.before && methods.before.length) {
+          this.buildMiddlewares(methods.before);
+        }
+
         props.forEach((prop: string) => {
+          this.router.addRoute(methods[prop].method, methods[prop].path, endpoint[prop]);
           if (methods[prop].permission ) {
             const permission = methods[prop].permission;
-            const descode = jwt.decode(token, permission.secret);
-            methods[prop].allowed = descode.includes(permission.name);
+            const decodeToken = jwt.decode(token, permission.secret);
+            methods[prop].allowed = decodeToken.includes(permission.name);
+          } else {
+            methods[prop].allowed = true;
           }
         });
+
+        this.routerConnect.push(this.setRouterConnect(methods, endpoint.constructor.name, path));
       }
     });
   }
@@ -139,7 +158,9 @@ export class SetRouter {
           after = after.concat(methods.after);
         }
 
-        this.RouterConnect.push(this.setRouterConnect(methods, endpoint.constructor.name, path));
+        if (!this.authConnection) {
+          this.routerConnect.push(this.setRouterConnect(methods, endpoint.constructor.name, path));
+        }
       }
     });
 

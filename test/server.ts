@@ -4,6 +4,7 @@ import {After, AfterAll, Before, BeforeAll, Delete, Endpoint, Get, HttpError,
 import {users} from "./assets";
 
 const app = new Road();
+const secret = "7983ac7ab1f7f706a962f6679bbdaae9ede06519c75e1ae7f1f92f3474eae21d";
 
 const server = new Server(app, (error: any) => {
     switch (error.code) {
@@ -43,7 +44,7 @@ class User {
     private body: any;
 
     @Before(info)
-    @Get("")
+    @Get("", {name: "user", secret})
     public getUsers() {
         return new Response(users, 200);
     }
@@ -54,14 +55,14 @@ class User {
         return new Response(user, 200);
     }
 
-    @Post("")
+    @Post("", {name: "admin", secret})
     public addUser(url: IUrl) {
         const user = this.body;
         users.push(user);
         return new Response(users, 200);
     }
 
-    @Put("#id")
+    @Put("#id", {name: "admin", secret})
     public updateUser(url: IUrl) {
         const id = url.args.id;
         const resp = users.map((user) => {
@@ -78,7 +79,7 @@ class User {
         }
     }
 
-    @Delete("#id")
+    @Delete("#id", {name: "admin", secret})
     public deleteUser(url: IUrl) {
         const id = url.args.id;
         const index = users.findIndex((user: any) => user.id === id);
@@ -109,6 +110,7 @@ class OtherClass {
 const endpoints = [new User(), [new Greeting(), new OtherClass()]];
 
 const configRouter: IRouterOptions = {
+  authConnection: true,
   connectionMode: true,
   endpoints,
   road: app,
