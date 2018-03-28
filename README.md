@@ -10,6 +10,9 @@ Spiel server is a middleware framework to make easy create backend applications.
 ## Api documentation
 * [Spiel server API](https://spieljs.github.io/spiel-server)
 
+## Example
+* [Listing People Api](https://github.com/spiel-examples/listing-people-api)
+
 ## How use it
 ### Create your endpoints
 ```typescript

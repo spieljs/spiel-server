@@ -11,7 +11,7 @@ export interface IObject {
 
 /**
  * Types for url router argument
- * @see <a href="https://github.com/defunctzombie/node-url#api" target="_blank">node-url api</a>
+ * @see <a href="https://nodejs.org/api/url.html#url_url" target="_blank">Url api</a>
  */
 export interface IUrl {
   args: IObject;

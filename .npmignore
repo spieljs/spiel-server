@@ -5,6 +5,7 @@
 .babelrc
 coverage
 lib/test
+package-lock.json
 karma.conf.js
 node_modules
 test
