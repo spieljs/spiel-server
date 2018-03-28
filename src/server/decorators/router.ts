@@ -1,5 +1,5 @@
 import { middleware, Road } from "roads";
-import {getPropsObject, IRoute, IRouteMethod } from "../helpers";
+import {getPropsObject, IMiddleware, IRoute, IRouteMethod } from "../helpers";
 
 const routes: IRoute = {};
 
@@ -9,10 +9,10 @@ const routes: IRoute = {};
  * @see <a href="https://github.com/spieljs/spiel-server#create-your-endpoints" target="_blank">
  * Create your enpoints</a>
  */
-export function Endpoint(path: string) {
+export function Endpoint() {
   return function <T extends { new(...args: any[]): {} }>(constructor: T) {
     return class extends constructor {
-      public path = (path) ? `/${path}` : `/${constructor.name}`;
+      public path = `/${constructor.name.toLowerCase()}`;
       public body = {};
     };
   };
@@ -25,7 +25,7 @@ export function Endpoint(path: string) {
  * Create your middleware</a>
  */
 export function BeforeAll(middlw: (...args: any[]) => any) {
-  const before = "before";
+  const before: string = "before";
   return function <T extends { new(...args: any[]): {} }>(constructor: T) {
     return class extends constructor {
       public methods: any = constructor.prototype.methods;
@@ -39,7 +39,11 @@ export function BeforeAll(middlw: (...args: any[]) => any) {
           this.methods[before] = [];
         }
 
-        this.methods[before].unshift(middlw);
+        this.methods[before].unshift(
+          {
+            middleware: middlw,
+            path: `/${constructor.name.toLowerCase()}`,
+          });
       }
     };
   };
@@ -66,7 +70,11 @@ export function AfterAll(middlw: (...args: any[]) => any) {
           this.methods[after] = [];
         }
 
-        this.methods[after].push(middlw);
+        this.methods[after].push(
+          {
+            middleware: middlw,
+            path: `/${constructor.name.toLowerCase()}`,
+          });
       }
     };
   };
@@ -89,7 +97,10 @@ export function Before(middlw: (...args: any[]) => any) {
       target.methods[before] = [];
     }
 
-    target.methods[before].push(middlw);
+    target.methods[before].push({
+      middleware: middlw,
+      path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}`,
+    });
   };
 }
 
@@ -110,7 +121,10 @@ export function After(middlw: (...args: any[]) => any) {
       target.methods[after] = [];
     }
 
-    target.methods[after].push(middlw);
+    target.methods[after].push({
+      middleware: middlw,
+      path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}`,
+    });
   };
 }
 
@@ -118,7 +132,7 @@ export function After(middlw: (...args: any[]) => any) {
  * Endpoint method delete
  * @param path Path of the delete method
  */
-export function Delete(path: string) {
+export function Delete(path: string, permission?: {name: string, secret: string}) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     if (!target.methods) {
       target.methods = [];
@@ -126,7 +140,9 @@ export function Delete(path: string) {
 
     target.methods[key] = {
       method: "DELETE",
-      path,
+      path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
+        `/${path}` : ""}`,
+      permission,
     };
   };
 }
@@ -135,7 +151,7 @@ export function Delete(path: string) {
  * Endpoint method get
  * @param path Path of the get method
  */
-export function Get(path: string) {
+export function Get(path: string, permission?: {name: string, secret: string}) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     if (!target.methods) {
       target.methods = [];
@@ -143,7 +159,9 @@ export function Get(path: string) {
 
     target.methods[key] = {
       method: "GET",
-      path,
+      path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
+        `/${path}` : ""}`,
+      permission,
     };
   };
 }
@@ -152,7 +170,7 @@ export function Get(path: string) {
  * Endpoint method Head
  * @param path Path of the Head method
  */
-export function Head(path: string) {
+export function Head(path: string, permission?: {name: string, secret: string} ) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     if (!target.methods) {
       target.methods = [];
@@ -160,7 +178,9 @@ export function Head(path: string) {
 
     target.methods[key] = {
       method: "HEAD",
-      path,
+      path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
+        `/${path}` : ""}`,
+      permission,
     };
   };
 }
@@ -169,7 +189,7 @@ export function Head(path: string) {
  * Endpoint method Options
  * @param path Path of the Options method
  */
-export function Options(path: string) {
+export function Options(path: string, permission?: {name: string, secret: string} ) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     if (!target.methods) {
       target.methods = [];
@@ -177,7 +197,9 @@ export function Options(path: string) {
 
     target.methods[key] = {
       method: "OPTIONS",
-      path,
+      path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
+        `/${path}` : ""}`,
+      permission,
     };
   };
 }
@@ -186,7 +208,7 @@ export function Options(path: string) {
  * Endpoint method Patch
  * @param path Path of the Patch method
  */
-export function Patch(path: string) {
+export function Patch(path: string, permission?: {name: string, secret: string} ) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     if (!target.methods) {
       target.methods = [];
@@ -194,7 +216,9 @@ export function Patch(path: string) {
 
     target.methods[key] = {
       method: "PATCH",
-      path,
+      path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
+        `/${path}` : ""}`,
+      permission,
     };
   };
 }
@@ -203,7 +227,7 @@ export function Patch(path: string) {
  * Endpoint method Post
  * @param path Path of the Post method
  */
-export function Post(path: string) {
+export function Post(path: string, permission?: {name: string, secret: string} ) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     if (!target.methods) {
       target.methods = [];
@@ -211,7 +235,9 @@ export function Post(path: string) {
 
     target.methods[key] = {
       method: "POST",
-      path,
+      path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
+        `/${path}` : ""}`,
+      permission,
     };
   };
 }
@@ -220,7 +246,7 @@ export function Post(path: string) {
  * Endpoint method Put
  * @param path Path of the Put method
  */
-export function Put(path: string) {
+export function Put(path: string, permission?: {name: string, secret: string} ) {
   return (target: any, key: string, descriptor: PropertyDescriptor): void => {
     if (!target.methods) {
       target.methods = [];
@@ -228,7 +254,9 @@ export function Put(path: string) {
 
     target.methods[key] = {
       method: "PUT",
-      path,
+      path: `/${target.constructor.name.toLowerCase()}/${key.toLowerCase()}${path ?
+        `/${path}` : ""}`,
+      permission,
     };
   };
 }

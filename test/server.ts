@@ -1,9 +1,10 @@
 import {After, AfterAll, Before, BeforeAll, Delete, Endpoint, Get, HttpError,
-    IBody, IRouterOptions, middleware, Post, Put, Response,
+    IRouterOptions, IUrl, middleware, Post, Put, Response,
     Road, Server, SetRouter} from "../src";
 import {users} from "./assets";
 
 const app = new Road();
+const secret = "7983ac7ab1f7f706a962f6679bbdaae9ede06519c75e1ae7f1f92f3474eae21d";
 
 const server = new Server(app, (error: any) => {
     switch (error.code) {
@@ -17,61 +18,52 @@ const server = new Server(app, (error: any) => {
     }
 });
 
-const info = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
-    if (path.match(/^\/user/g)) {
-        console.log(`A ${method} request was made to ${JSON.stringify(path)}`);
-        return next();
-    } else {
-        return next();
-    }
+const info = (method: string, path: string, body: any, headers: Headers, next: () => any) => {
+    console.log(`A ${method} request was made to ${JSON.stringify(path)}`);
+    return next();
 };
 
-const infoAll = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
+const infoAll = (method: string, path: string, body: any, headers: Headers, next: () => any) => {
     console.log("The middleware start");
     return next();
 };
 
-const changeResponse = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
-    if (path.match(/^\/greeting/g)) {
-        console.log("End");
-        return new Response({greet: "Bye"}, 200);
-    } else {
-        return next();
-    }
-};
-
-const finish = (method: string, path: string, body: IBody, headers: Headers, next: () => any) => {
-    console.log("Finish");
+const changeResponse = (method: string, path: string, body: any, headers: Headers, next: () => any) => {
+    console.log("End");
     return next();
 };
 
+const finish = (method: string, path: string, body: any, headers: Headers, next: () => any) => {
+    console.log("Finish");
+    return new Response({greet: "Bye"}, 200);
+};
+
 @BeforeAll(infoAll)
-@AfterAll(finish)
-@Endpoint("user")
+@Endpoint()
 class User {
-    private body: IBody;
+    private body: any;
 
     @Before(info)
-    @Get("")
+    @Get("", {name: "user", secret})
     public getUsers() {
         return new Response(users, 200);
     }
     @Get("#id")
-    public getUser(url: any) {
+    public getUser(url: IUrl) {
         const id = url.args.id;
         const user: any = users.find((elment) => elment.id === id);
         return new Response(user, 200);
     }
 
-    @Post("")
-    public addUser(url: any) {
+    @Post("", {name: "admin", secret})
+    public addUser(url: IUrl) {
         const user = this.body;
         users.push(user);
         return new Response(users, 200);
     }
 
-    @Put("#id")
-    public updateUser(url: any) {
+    @Put("#id", {name: "admin", secret})
+    public updateUser(url: IUrl) {
         const id = url.args.id;
         const resp = users.map((user) => {
             const value = user;
@@ -87,8 +79,8 @@ class User {
         }
     }
 
-    @Delete("#id")
-    public deleteUser(url: any) {
+    @Delete("#id", {name: "admin", secret})
+    public deleteUser(url: IUrl) {
         const id = url.args.id;
         const index = users.findIndex((user: any) => user.id === id);
         users.splice(index, 1);
@@ -96,19 +88,29 @@ class User {
     }
 }
 
-@Endpoint("greeting")
+@Endpoint()
+@AfterAll(finish)
 class Greeting {
     @After(changeResponse)
     @Get("")
-    public getGreeting(url: any, body: any, headers: any, next: () => {}) {
+    public getGreeting(url: IUrl, body: any, headers: Headers, next: () => {}) {
         console.log("HELLO EVERYBODY");
         return next();
     }
 }
 
-const endpoints = [new User(), new Greeting()];
+@Endpoint()
+class OtherClass {
+    @Get("$name")
+    public getName(url: IUrl, body: any, headers: Headers, next: () => {}) {
+        return new Response(url.args, 200);
+    }
+}
+
+const endpoints = [new User(), [new Greeting(), new OtherClass()]];
 
 const configRouter: IRouterOptions = {
+  authConnection: true,
   connectionMode: true,
   endpoints,
   road: app,

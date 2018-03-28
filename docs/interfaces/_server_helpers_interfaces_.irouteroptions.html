@@ -91,7 +91,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.irouteroptions.html#authconnection" class="tsd-kind-icon">auth<wbr>Connection</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.irouteroptions.html#connectionmode" class="tsd-kind-icon">connection<wbr>Mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.irouteroptions.html#connectionpath" class="tsd-kind-icon">connection<wbr>Path</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.irouteroptions.html#cors" class="tsd-kind-icon">cors</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.irouteroptions.html#endpoints" class="tsd-kind-icon">endpoints</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.irouteroptions.html#road" class="tsd-kind-icon">road</a></li>
@@ -104,12 +106,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="authconnection" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> auth<wbr>Connection</h3>
+					<div class="tsd-signature tsd-kind-icon">auth<wbr>Connection<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/5f9e029/src/server/helpers/interfaces.ts#L68">server/helpers/interfaces.ts:68</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Security layer which respond with the endpoints according with the permissions</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>default</dt>
+							<dd><p>false</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="connectionmode" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> connection<wbr>Mode</h3>
 					<div class="tsd-signature tsd-kind-icon">connection<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/cf8e78b/src/server/helpers/interfaces.ts#L39">server/helpers/interfaces.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/5f9e029/src/server/helpers/interfaces.ts#L73">server/helpers/interfaces.ts:73</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -124,12 +146,32 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="connectionpath" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> connection<wbr>Path</h3>
+					<div class="tsd-signature tsd-kind-icon">connection<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/5f9e029/src/server/helpers/interfaces.ts#L78">server/helpers/interfaces.ts:78</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Path which will return all the routers</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>default</dt>
+							<dd><p>&quot;/&quot;</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="cors" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> cors</h3>
 					<div class="tsd-signature tsd-kind-icon">cors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Cors</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/cf8e78b/src/server/helpers/interfaces.ts#L45">server/helpers/interfaces.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/5f9e029/src/server/helpers/interfaces.ts#L84">server/helpers/interfaces.ts:84</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -150,7 +192,7 @@
 					<div class="tsd-signature tsd-kind-icon">endpoints<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/cf8e78b/src/server/helpers/interfaces.ts#L49">server/helpers/interfaces.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/5f9e029/src/server/helpers/interfaces.ts#L88">server/helpers/interfaces.ts:88</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -165,7 +207,7 @@
 					<div class="tsd-signature tsd-kind-icon">road<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Road</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/cf8e78b/src/server/helpers/interfaces.ts#L54">server/helpers/interfaces.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/5f9e029/src/server/helpers/interfaces.ts#L93">server/helpers/interfaces.ts:93</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -185,7 +227,7 @@
 					<div class="tsd-signature tsd-kind-icon">verbose<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/cf8e78b/src/server/helpers/interfaces.ts#L59">server/helpers/interfaces.ts:59</a></li>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/5f9e029/src/server/helpers/interfaces.ts#L98">server/helpers/interfaces.ts:98</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -236,10 +278,16 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_server_helpers_interfaces_.iendpoint.html" class="tsd-kind-icon">IEndpoint</a>
+						<a href="_server_helpers_interfaces_.iendpoints.html" class="tsd-kind-icon">IEndpoints</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_server_helpers_interfaces_.iendpoints.html" class="tsd-kind-icon">IEndpoints</a>
+						<a href="_server_helpers_interfaces_.imiddleware.html" class="tsd-kind-icon">IMiddleware</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_server_helpers_interfaces_.imiddlewareall.html" class="tsd-kind-icon">IMiddleware<wbr>All</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_server_helpers_interfaces_.iobject.html" class="tsd-kind-icon">IObject</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_server_helpers_interfaces_.iroute.html" class="tsd-kind-icon">IRoute</a>
@@ -256,7 +304,13 @@
 						<a href="_server_helpers_interfaces_.irouteroptions.html" class="tsd-kind-icon">IRouter<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_server_helpers_interfaces_.irouteroptions.html#authconnection" class="tsd-kind-icon">auth<wbr>Connection</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_server_helpers_interfaces_.irouteroptions.html#connectionmode" class="tsd-kind-icon">connection<wbr>Mode</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_server_helpers_interfaces_.irouteroptions.html#connectionpath" class="tsd-kind-icon">connection<wbr>Path</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_server_helpers_interfaces_.irouteroptions.html#cors" class="tsd-kind-icon">cors</a>
@@ -274,14 +328,20 @@
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_server_helpers_interfaces_.iurl.html" class="tsd-kind-icon">IUrl</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="../modules/_server_helpers_interfaces_.html#endpointsconnect" class="tsd-kind-icon">Endpoints<wbr>Connect</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/_server_helpers_interfaces_.html#ibody" class="tsd-kind-icon">IBody</a>
+						<a href="../modules/_server_helpers_interfaces_.html#iendpoint" class="tsd-kind-icon">IEndpoint</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="../modules/_server_helpers_interfaces_.html#keys" class="tsd-kind-icon">Keys</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_server_helpers_interfaces_.html#middleware" class="tsd-kind-icon">Middleware</a>
 					</li>
 				</ul>
 			</nav>
