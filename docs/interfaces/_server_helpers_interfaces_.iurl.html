@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IRouteProps | Spiel Server</title>
+	<title>IUrl | Spiel Server</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,10 +59,10 @@
 					<a href="../modules/_server_helpers_interfaces_.html">&quot;server/helpers/interfaces&quot;</a>
 				</li>
 				<li>
-					<a href="_server_helpers_interfaces_.irouteprops.html">IRouteProps</a>
+					<a href="_server_helpers_interfaces_.iurl.html">IUrl</a>
 				</li>
 			</ul>
-			<h1>Interface IRouteProps</h1>
+			<h1>Interface IUrl</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IRouteProps</span>
+						<span class="target">IUrl</span>
 					</li>
 				</ul>
 			</section>
@@ -84,9 +84,18 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.irouteprops.html#method" class="tsd-kind-icon">method</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.irouteprops.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.irouteprops.html#path" class="tsd-kind-icon">path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.iurl.html#args" class="tsd-kind-icon">args</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.iurl.html#hash" class="tsd-kind-icon">hash</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.iurl.html#host" class="tsd-kind-icon">host</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.iurl.html#hostname" class="tsd-kind-icon">hostname</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.iurl.html#href" class="tsd-kind-icon">href</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.iurl.html#path" class="tsd-kind-icon">path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.iurl.html#pathname" class="tsd-kind-icon">path<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.iurl.html#port" class="tsd-kind-icon">port</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.iurl.html#protocol" class="tsd-kind-icon">protocol</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.iurl.html#query" class="tsd-kind-icon">query</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.iurl.html#search" class="tsd-kind-icon">search</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.iurl.html#slashes" class="tsd-kind-icon">slashes</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,22 +104,52 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="method" class="tsd-anchor"></a>
-					<h3>method</h3>
-					<div class="tsd-signature tsd-kind-icon">method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="args" class="tsd-anchor"></a>
+					<h3>args</h3>
+					<div class="tsd-signature tsd-kind-icon">args<span class="tsd-signature-symbol">:</span> <a href="_server_helpers_interfaces_.iobject.html" class="tsd-signature-type">IObject</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L34">server/helpers/interfaces.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L13">server/helpers/interfaces.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="name" class="tsd-anchor"></a>
-					<h3>name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="hash" class="tsd-anchor"></a>
+					<h3>hash</h3>
+					<div class="tsd-signature tsd-kind-icon">hash<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L35">server/helpers/interfaces.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L14">server/helpers/interfaces.ts:14</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="host" class="tsd-anchor"></a>
+					<h3>host</h3>
+					<div class="tsd-signature tsd-kind-icon">host<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L15">server/helpers/interfaces.ts:15</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="hostname" class="tsd-anchor"></a>
+					<h3>hostname</h3>
+					<div class="tsd-signature tsd-kind-icon">hostname<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L16">server/helpers/interfaces.ts:16</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="href" class="tsd-anchor"></a>
+					<h3>href</h3>
+					<div class="tsd-signature tsd-kind-icon">href<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L17">server/helpers/interfaces.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -120,7 +159,67 @@
 					<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L33">server/helpers/interfaces.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L18">server/helpers/interfaces.ts:18</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="pathname" class="tsd-anchor"></a>
+					<h3>path<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">path<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L19">server/helpers/interfaces.ts:19</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="port" class="tsd-anchor"></a>
+					<h3>port</h3>
+					<div class="tsd-signature tsd-kind-icon">port<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L20">server/helpers/interfaces.ts:20</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="protocol" class="tsd-anchor"></a>
+					<h3>protocol</h3>
+					<div class="tsd-signature tsd-kind-icon">protocol<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L21">server/helpers/interfaces.ts:21</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="query" class="tsd-anchor"></a>
+					<h3>query</h3>
+					<div class="tsd-signature tsd-kind-icon">query<span class="tsd-signature-symbol">:</span> <a href="_server_helpers_interfaces_.iobject.html" class="tsd-signature-type">IObject</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L22">server/helpers/interfaces.ts:22</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="search" class="tsd-anchor"></a>
+					<h3>search</h3>
+					<div class="tsd-signature tsd-kind-icon">search<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L23">server/helpers/interfaces.ts:23</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="slashes" class="tsd-anchor"></a>
+					<h3>slashes</h3>
+					<div class="tsd-signature tsd-kind-icon">slashes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L24">server/helpers/interfaces.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -178,30 +277,57 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_server_helpers_interfaces_.iroutemethod.html" class="tsd-kind-icon">IRoute<wbr>Method</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_server_helpers_interfaces_.irouteprops.html" class="tsd-kind-icon">IRoute<wbr>Props</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_server_helpers_interfaces_.irouteroptions.html" class="tsd-kind-icon">IRouter<wbr>Options</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_server_helpers_interfaces_.irouteprops.html" class="tsd-kind-icon">IRoute<wbr>Props</a>
+						<a href="_server_helpers_interfaces_.iurl.html" class="tsd-kind-icon">IUrl</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_server_helpers_interfaces_.irouteprops.html#method" class="tsd-kind-icon">method</a>
+								<a href="_server_helpers_interfaces_.iurl.html#args" class="tsd-kind-icon">args</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_server_helpers_interfaces_.irouteprops.html#name" class="tsd-kind-icon">name</a>
+								<a href="_server_helpers_interfaces_.iurl.html#hash" class="tsd-kind-icon">hash</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_server_helpers_interfaces_.irouteprops.html#path" class="tsd-kind-icon">path</a>
+								<a href="_server_helpers_interfaces_.iurl.html#host" class="tsd-kind-icon">host</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_server_helpers_interfaces_.iurl.html#hostname" class="tsd-kind-icon">hostname</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_server_helpers_interfaces_.iurl.html#href" class="tsd-kind-icon">href</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_server_helpers_interfaces_.iurl.html#path" class="tsd-kind-icon">path</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_server_helpers_interfaces_.iurl.html#pathname" class="tsd-kind-icon">path<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_server_helpers_interfaces_.iurl.html#port" class="tsd-kind-icon">port</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_server_helpers_interfaces_.iurl.html#protocol" class="tsd-kind-icon">protocol</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_server_helpers_interfaces_.iurl.html#query" class="tsd-kind-icon">query</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_server_helpers_interfaces_.iurl.html#search" class="tsd-kind-icon">search</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_server_helpers_interfaces_.iurl.html#slashes" class="tsd-kind-icon">slashes</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_server_helpers_interfaces_.irouteroptions.html" class="tsd-kind-icon">IRouter<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_server_helpers_interfaces_.iurl.html" class="tsd-kind-icon">IUrl</a>
-					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="../modules/_server_helpers_interfaces_.html#endpointsconnect" class="tsd-kind-icon">Endpoints<wbr>Connect</a>
 					</li>

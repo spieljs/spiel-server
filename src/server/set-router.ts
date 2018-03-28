@@ -8,14 +8,14 @@ import { EndpointsConnect, getPropsObject, IEndpoint, IEndpoints,
  * @see <a href="https://github.com/spieljs/spiel-server#setting-the-router" target="_blank">Setting router</a>
  */
 export class SetRouter {
-  protected endpoints: IEndpoint[];
-  protected authConnection: boolean;
-  protected router: middleware.SimpleRouter;
-  protected routerConnect: EndpointsConnect = [];
-  protected road: Road;
-  protected connectionMode: boolean;
-  protected connectionPath: string;
-  protected verbose: boolean;
+  private endpoints: IEndpoint[];
+  private authConnection: boolean;
+  private router: middleware.SimpleRouter;
+  private routerConnect: EndpointsConnect = [];
+  private road: Road;
+  private connectionMode: boolean;
+  private connectionPath: string;
+  private verbose: boolean;
 
   /**
    * @param options Router options
@@ -61,14 +61,14 @@ export class SetRouter {
     }
   }
 
-  protected infoRequest() {
+  private infoRequest() {
     this.road.use((method: string, request: any, body: any, headers: Headers, next: () => any) => {
       console.log(`${method} ${request}`);
       return next();
     });
   }
 
-  protected setRouterConnect(endpointMethods: IEndpoint, routeName: string, path: string): IEndpoints {
+  private setRouterConnect(endpointMethods: IEndpoint, routeName: string, path: string): IEndpoints {
     return {
       name: routeName,
       props: Object.keys(endpointMethods)
@@ -84,7 +84,7 @@ export class SetRouter {
     };
   }
 
-  protected setConnection() {
+  private setConnection() {
     this.router.addRoute("GET", this.connectionPath, () => {
       return new Response(this.routerConnect, 200);
     });

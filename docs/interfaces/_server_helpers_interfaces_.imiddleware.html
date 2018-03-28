@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IRouteProps | Spiel Server</title>
+	<title>IMiddleware | Spiel Server</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,10 +59,10 @@
 					<a href="../modules/_server_helpers_interfaces_.html">&quot;server/helpers/interfaces&quot;</a>
 				</li>
 				<li>
-					<a href="_server_helpers_interfaces_.irouteprops.html">IRouteProps</a>
+					<a href="_server_helpers_interfaces_.imiddleware.html">IMiddleware</a>
 				</li>
 			</ul>
-			<h1>Interface IRouteProps</h1>
+			<h1>Interface IMiddleware</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IRouteProps</span>
+						<a href="_server_helpers_interfaces_.imiddlewareall.html" class="tsd-signature-type">IMiddlewareAll</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">IMiddleware</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -84,9 +89,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.irouteprops.html#method" class="tsd-kind-icon">method</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.irouteprops.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.irouteprops.html#path" class="tsd-kind-icon">path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_server_helpers_interfaces_.imiddleware.html#method" class="tsd-kind-icon">method</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_server_helpers_interfaces_.imiddleware.html#middleware" class="tsd-kind-icon">middleware</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_server_helpers_interfaces_.imiddleware.html#path" class="tsd-kind-icon">path</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,27 +105,29 @@
 					<div class="tsd-signature tsd-kind-icon">method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L34">server/helpers/interfaces.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L49">server/helpers/interfaces.ts:49</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="name" class="tsd-anchor"></a>
-					<h3>name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="middleware" class="tsd-anchor"></a>
+					<h3>middleware</h3>
+					<div class="tsd-signature tsd-kind-icon">middleware<span class="tsd-signature-symbol">:</span> <a href="../modules/_server_helpers_interfaces_.html#middleware" class="tsd-signature-type">Middleware</a></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="_server_helpers_interfaces_.imiddlewareall.html">IMiddlewareAll</a>.<a href="_server_helpers_interfaces_.imiddlewareall.html#middleware">middleware</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L35">server/helpers/interfaces.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L45">server/helpers/interfaces.ts:45</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="path" class="tsd-anchor"></a>
 					<h3>path</h3>
 					<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="_server_helpers_interfaces_.imiddlewareall.html">IMiddlewareAll</a>.<a href="_server_helpers_interfaces_.imiddlewareall.html#path">path</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L33">server/helpers/interfaces.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/spieljs/spiel-server/blob/d03a7d2/src/server/helpers/interfaces.ts#L44">server/helpers/interfaces.ts:44</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -163,9 +170,24 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_server_helpers_interfaces_.iendpoints.html" class="tsd-kind-icon">IEndpoints</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_server_helpers_interfaces_.imiddleware.html" class="tsd-kind-icon">IMiddleware</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_server_helpers_interfaces_.imiddleware.html#method" class="tsd-kind-icon">method</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_server_helpers_interfaces_.imiddleware.html#middleware" class="tsd-kind-icon">middleware</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_server_helpers_interfaces_.imiddleware.html#path" class="tsd-kind-icon">path</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_server_helpers_interfaces_.imiddlewareall.html" class="tsd-kind-icon">IMiddleware<wbr>All</a>
 					</li>
@@ -178,24 +200,9 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_server_helpers_interfaces_.iroutemethod.html" class="tsd-kind-icon">IRoute<wbr>Method</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_server_helpers_interfaces_.irouteprops.html" class="tsd-kind-icon">IRoute<wbr>Props</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_server_helpers_interfaces_.irouteprops.html#method" class="tsd-kind-icon">method</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_server_helpers_interfaces_.irouteprops.html#name" class="tsd-kind-icon">name</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_server_helpers_interfaces_.irouteprops.html#path" class="tsd-kind-icon">path</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_server_helpers_interfaces_.irouteroptions.html" class="tsd-kind-icon">IRouter<wbr>Options</a>
 					</li>
