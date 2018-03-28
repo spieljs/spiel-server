@@ -9,6 +9,10 @@ export interface IObject {
   [key: string]: any;
 }
 
+/**
+ * Types for url router argument
+ * @see <a href="https://github.com/defunctzombie/node-url#api" target="_blank">node-url api</a>
+ */
 export interface IUrl {
   args: IObject;
   hash: string;
