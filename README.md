@@ -146,7 +146,7 @@ class OtherClass {
     }
 }
 ```
-Since the versoin 1.0 you don't need to write any path logic just put before/beforeAll/after/afterAll when you want the execution middleware. 
+Since the versoin 1.0 you don't need to write any path logic just put before/beforeAll/after/afterAll when you want the middleware execution.
 
 ### Setting the router
 ```typescript
