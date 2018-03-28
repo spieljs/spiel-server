@@ -12,10 +12,13 @@ Spiel server is a middleware framework to make easy create backend applications.
 
 ## How use it
 ### Create your endpoints
+
+Spiel server generates the url request for you according with the class and method name
+
 ```typescript
 import {Endpoint, Get, IUrl, Road, SetRouter} from "spiel-server";
 
-@Endpoint("user")
+@Endpoint()
 class User {
     private body;
 
@@ -36,7 +39,7 @@ class User {
 Notice that you will have the body request already parsed in `this.body`
 if you want the body without parse (string) then you have to past body by argument like this:
 ```typescript
-@Endpoint("user")
+@Endpoint()
 class User {
     private body: any;
 
